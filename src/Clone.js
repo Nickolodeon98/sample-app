@@ -231,7 +231,7 @@ function Clone() {
                 <img className="logoImage" src={logo} alt="Logo"></img>
                 <div className="headerControls">
                     <select className="languageSelectBox" name="LanguageSelect">
-                        <option value="ko-KR">한국어</option>
+                        <option value="ko-KR">한국어</option> // TODO: 상태관리 하기 (context API 사용)
                         <option value="en-EN">English</option>
                     </select>
                     <button className="loginButton">로그인</button>
@@ -242,7 +242,7 @@ function Clone() {
                 <h1 className="mainTitle">영화, 시리즈 등을 무제한으로</h1>
                 <p className="subText">5,500원으로 시작하세요. 멤버십은 언제든지 해지 가능합니다.</p>
                 <p className="subSubText">시청할 준비가 되셨나요? 멤버십을 등록하거나 재시작하려면 이메일 주소를 입력하세요.</p>
-                <div className="emailInputContainer">
+                <div className="emailInputContainer"> // TODO: 상태관리 하기 (context API 사용)
                     <input className="emailInput" type="email" placeholder="이메일 주소"/>
                     <button className="startButton">시작하기</button>
                 </div>
