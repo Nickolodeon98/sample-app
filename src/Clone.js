@@ -1,7 +1,8 @@
-import React from "react";
+import React, {useState} from "react";
 import styled from "styled-components";
 import logo from './netflix_logo.png';
 import popcornIcon from './popcorn.jpg'
+import {createContext, useContext} from "react";
 
 const CustomBodyWrapper = styled.div`
     background: rgba(0, 0, 0, 0.6);
@@ -224,29 +225,18 @@ const CustomShowList = styled.div`
     }
 `;
 
+const LanguageContext = createContext(null);
+
 function Clone() {
+    const [language, setLanguage] = useState(null);
+
     return (
         <CustomBodyWrapper>
-            <CustomHeader>
-                <img className="logoImage" src={logo} alt="Logo"></img>
-                <div className="headerControls">
-                    <select className="languageSelectBox" name="LanguageSelect">
-                        <option value="ko-KR">한국어</option> // TODO: 상태관리 하기 (context API 사용)
-                        <option value="en-EN">English</option>
-                    </select>
-                    <button className="loginButton">로그인</button>
-                </div>
-            </CustomHeader>
+            <LanguageContext.Provider value={{language, setLanguage}}>
+            <Header/>
+            </LanguageContext.Provider>);
             <CustomBody>
-                <CustomIntro>
-                <h1 className="mainTitle">영화, 시리즈 등을 무제한으로</h1>
-                <p className="subText">5,500원으로 시작하세요. 멤버십은 언제든지 해지 가능합니다.</p>
-                <p className="subSubText">시청할 준비가 되셨나요? 멤버십을 등록하거나 재시작하려면 이메일 주소를 입력하세요.</p>
-                <div className="emailInputContainer"> // TODO: 상태관리 하기 (context API 사용)
-                    <input className="emailInput" type="email" placeholder="이메일 주소"/>
-                    <button className="startButton">시작하기</button>
-                </div>
-                </CustomIntro>
+                <Email/>
                 <CustomBannerWrapper>
                     {/*<PopcornIcon src={popcornIcon} alt="Popcorn Icon"/>*/}
                     <CustomBanner>
@@ -278,6 +268,58 @@ function Clone() {
                 </CustomShowListWrapper>
             </CustomBody>
         </CustomBodyWrapper>
+    );
+}
+
+const Email = () => {
+    return (<CustomIntro>
+        <h1 className="mainTitle">영화, 시리즈 등을 무제한으로</h1>
+        <p className="subText">5,500원으로 시작하세요. 멤버십은 언제든지 해지 가능합니다.</p>
+        <p className="subSubText">시청할 준비가 되셨나요? 멤버십을 등록하거나 재시작하려면 이메일 주소를 입력하세요.</p>
+        <div className="emailInputContainer">
+            <input className="emailInput" type="email" placeholder="이메일 주소"/>
+            <button className="startButton">시작하기</button>
+        </div>
+    </CustomIntro>);
+}
+
+const Header = () => {
+    const {language, setLanguage} = useContext(LanguageContext);
+
+    return (
+        <CustomHeader>
+        <img className="logoImage" src={logo} alt="Logo"></img>
+        <div className="headerControls">
+            <select className="languageSelectBox" name="LanguageSelect">
+                <Option label={language === null || language.selection === 'English' ? '한국어' : language.selection}
+                        selected={language === null ? false : !language.selected}>
+                </Option>
+                <Option label={language === null || language.selection === '한국어' ? 'English' : language.selection}
+                        selected={language === null ? true : language.selected}>
+                </Option>
+            </select>
+            <Button label='언어변경' onClick={() => {
+                if (language === null) {
+                    setLanguage({selection: '한국어', selected: false});
+                } else {
+                    if (language.selection === 'English') {
+                        setLanguage({selection: '한국어', selected: false});
+                    } else {
+                        setLanguage({selection: 'English', selected: true});
+                    }
+                }
+            }}/>
+        </div>
+    </CustomHeader>)
+}
+
+const Option = ({label, selected}) => {
+    return (<option value={label} selected={selected}>{label}</option>);
+}
+
+const Button = ({label, onClick}) => {
+    return (
+        <button className="loginButton" onClick={onClick}>{label}</button>
     );
 }
 
