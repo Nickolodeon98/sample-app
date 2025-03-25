@@ -1,8 +1,10 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import styled from "styled-components";
 import logo from './netflix_logo.png';
 import popcornIcon from './popcorn.jpg'
 import {createContext, useContext} from "react";
+import {useQuery} from "react-query";
+import async from "async";
 
 const CustomBodyWrapper = styled.div`
     background: rgba(0, 0, 0, 0.6);
@@ -295,38 +297,29 @@ const Email = () => {
                     value={email}
                     onChange={handleChange}
                 />
-                <button className="startButton" value={email} onClick={handleChange}>{email}</button>
+                <button className="startButton">시작</button>
             </div>
         </CustomIntro>
     );
 };
 
+const OPTIONS = [{selection: '한국어'}, {selection: 'English'}];
 const Header = () => {
     const {language, setLanguage} = useContext(LanguageContext);
-
+    useEffect(() => {
+        if (language === null) {
+            setLanguage({selection: '한국어'});
+        }
+    }, [language]);
     return (
         <CustomHeader>
             <img className="logoImage" src={logo} alt="Logo"></img>
             <div className="headerControls">
-                <select className="languageSelectBox" name="LanguageSelect">
-                    <Option label={language === null || language.selection === 'English' ? '한국어' : language.selection}
-                            selected={language === null ? false : !language.selected}>
-                    </Option>
-                    <Option label={language === null || language.selection === '한국어' ? 'English' : language.selection}
-                            selected={language === null ? true : language.selected}>
-                    </Option>
+                <select className="languageSelectBox" name="LanguageSelect" onChange={e => {
+                    setLanguage({selection: e.currentTarget.value});
+                }}>
+                    {OPTIONS.map(({selection}) => <Option label={selection} selected={language?.selection === selection} />)}
                 </select>
-                <Button label='언어변경' onClick={() => {
-                    if (language === null) {
-                        setLanguage({selection: '한국어', selected: false});
-                    } else {
-                        if (language.selection === 'English') {
-                            setLanguage({selection: '한국어', selected: false});
-                        } else {
-                            setLanguage({selection: 'English', selected: true});
-                        }
-                    }
-                }}/>
             </div>
         </CustomHeader>)
 }
@@ -383,6 +376,24 @@ const Button = ({label, onClick}) => {
     return (
         <button className="loginButton" onClick={onClick}>{label}</button>
     );
+}
+
+const useList = () => {
+    const movieParam = {
+        //key:
+    }
+    return useQuery({
+        queryKey: ['movie'],
+        queryFn: () => getMoviesById()
+    })
+}
+
+const getMoviesById = async (param) => {
+    const url = `http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json`;
+    url.search = new URLSearchParams({param}).toString();
+    const response = await fetch(
+        url
+    )
 }
 
 export default Clone;
