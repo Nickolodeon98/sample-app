@@ -67,7 +67,7 @@ const CustomIntro = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
-    
+
     &::before {
         content: "";
         position: absolute;
@@ -149,7 +149,7 @@ const CustomBanner = styled.div`
     color: white;
     border-radius: 20px;
     margin-top: 10px;
-    
+
     .textContent {
         flex-direction: column;
         align-items: flex-start;
@@ -184,7 +184,7 @@ const CustomShowListWrapper = styled.div`
     box-sizing: border-box;
     unicode-bidi: isolate;
     -webkit-text-size-adjust: 100%;
-    
+
     .hotContents {
         color: white;
     }
@@ -194,7 +194,7 @@ const CustomShowList = styled.div`
     border-radius: 0.5rem;
     width: 100%;
     mask: linear-gradient(to left, transparent, black 10%);
-    
+
     .showList {
         position: relative;
         display: flex;
@@ -208,7 +208,11 @@ const CustomShowList = styled.div`
         scroll-snap-type: x mandatory;
         scroll-margin-inline-start: 2.5em;
     }
-    
+
+    .showList > li {
+        padding: 0.8rem 1rem;
+    }
+
     .showBox {
         position: relative;
         padding: 0;
@@ -216,9 +220,27 @@ const CustomShowList = styled.div`
         border: none;
         border-radius: 1rem;
         transition: transform 0.2s ease-in-out;
-        width: 40px;
     }
-    
+
+    .showBox > span {
+        font-size: 3rem;
+        top: 0.1rem;
+        left: -0.925rem;
+        position: absolute;
+        z-index: 2;
+    }
+
+    .showBox > span > span {
+        line-height: 1;
+        display: inline-block;
+        height: 1em;
+        position: relative;
+        font-weight: 900;
+        color: rgba(0, 0, 0, 0.8);
+        -webkit-text-stroke: 0.125rem rgb(255, 255, 255);
+        text-shadow: 0 0 1.5rem rgba(0, 0, 0, 0.5)
+    }
+
     .showBox > div {
         width: 12.5rem;
         height: 25rem;
@@ -233,7 +255,7 @@ function Clone() {
     return (
         <CustomBodyWrapper>
             <LanguageContext.Provider value={{language, setLanguage}}>
-            <Header/>
+                <Header/>
             </LanguageContext.Provider>);
             <CustomBody>
                 <Email/>
@@ -247,70 +269,110 @@ function Clone() {
                         <button className="detailButton">자세히 알아보기</button>
                     </CustomBanner>
                 </CustomBannerWrapper>
-                <CustomShowListWrapper>
-                    <h1 className="hotContents">
-                        지금 뜨는 콘텐츠
-                    </h1>
-                    <CustomShowList>
-                        <ul className="showList">
-                            <li>
-                                <button className="showBox">
-                                    <div></div>
-                                </button>
-                            </li>
-                            <li>
-                                <button className="showBox">
-                                    <div></div>
-                                </button>
-                            </li>
-                        </ul>
-                    </CustomShowList>
-                </CustomShowListWrapper>
+                <ShowList/>
             </CustomBody>
         </CustomBodyWrapper>
     );
 }
 
 const Email = () => {
-    return (<CustomIntro>
-        <h1 className="mainTitle">영화, 시리즈 등을 무제한으로</h1>
-        <p className="subText">5,500원으로 시작하세요. 멤버십은 언제든지 해지 가능합니다.</p>
-        <p className="subSubText">시청할 준비가 되셨나요? 멤버십을 등록하거나 재시작하려면 이메일 주소를 입력하세요.</p>
-        <div className="emailInputContainer">
-            <input className="emailInput" type="email" placeholder="이메일 주소"/>
-            <button className="startButton">시작하기</button>
-        </div>
-    </CustomIntro>);
-}
+    const [email, setEmail] = useState('');
+
+    const handleChange = (e) => {
+        setEmail(e.target.value);
+    };
+
+    return (
+        <CustomIntro>
+            <h1 className="mainTitle">영화, 시리즈 등을 무제한으로</h1>
+            <p className="subText">5,500원으로 시작하세요. 멤버십은 언제든지 해지 가능합니다.</p>
+            <p className="subSubText">시청할 준비가 되셨나요? 멤버십을 등록하거나 재시작하려면 이메일 주소를 입력하세요.</p>
+            <div className="emailInputContainer">
+                <input
+                    className="emailInput"
+                    type="email"
+                    placeholder="이메일 주소"
+                    value={email}
+                    onChange={handleChange}
+                />
+                <button className="startButton" value={email} onClick={handleChange}>{email}</button>
+            </div>
+        </CustomIntro>
+    );
+};
 
 const Header = () => {
     const {language, setLanguage} = useContext(LanguageContext);
 
     return (
         <CustomHeader>
-        <img className="logoImage" src={logo} alt="Logo"></img>
-        <div className="headerControls">
-            <select className="languageSelectBox" name="LanguageSelect">
-                <Option label={language === null || language.selection === 'English' ? '한국어' : language.selection}
-                        selected={language === null ? false : !language.selected}>
-                </Option>
-                <Option label={language === null || language.selection === '한국어' ? 'English' : language.selection}
-                        selected={language === null ? true : language.selected}>
-                </Option>
-            </select>
-            <Button label='언어변경' onClick={() => {
-                if (language === null) {
-                    setLanguage({selection: '한국어', selected: false});
-                } else {
-                    if (language.selection === 'English') {
+            <img className="logoImage" src={logo} alt="Logo"></img>
+            <div className="headerControls">
+                <select className="languageSelectBox" name="LanguageSelect">
+                    <Option label={language === null || language.selection === 'English' ? '한국어' : language.selection}
+                            selected={language === null ? false : !language.selected}>
+                    </Option>
+                    <Option label={language === null || language.selection === '한국어' ? 'English' : language.selection}
+                            selected={language === null ? true : language.selected}>
+                    </Option>
+                </select>
+                <Button label='언어변경' onClick={() => {
+                    if (language === null) {
                         setLanguage({selection: '한국어', selected: false});
                     } else {
-                        setLanguage({selection: 'English', selected: true});
+                        if (language.selection === 'English') {
+                            setLanguage({selection: '한국어', selected: false});
+                        } else {
+                            setLanguage({selection: 'English', selected: true});
+                        }
                     }
-                }
-            }}/>
-        </div>
-    </CustomHeader>)
+                }}/>
+            </div>
+        </CustomHeader>)
+}
+
+const ShowList = () => {
+    return (<CustomShowListWrapper>
+        <h1 className="hotContents">
+            지금 뜨는 콘텐츠
+        </h1>
+        <CustomShowList>
+            <ul className="showList">
+                <li>
+                    <button className="showBox">
+                        <div></div>
+                        <span>
+                            <span aria-hidden="true" data-content="1">1</span>
+                        </span>
+                    </button>
+                </li>
+                <li>
+                    <button className="showBox">
+                        <div></div>
+                        <span>
+                            <span aria-hidden="true" data-content="2">2</span>
+                        </span>
+                    </button>
+                </li>
+                <li>
+                    <button className="showBox">
+                        <div></div>
+                        <span>
+                            <span aria-hidden="true" data-content="3">3</span>
+                        </span>
+                    </button>
+                </li>
+                <li>
+                    <button className="showBox">
+                        <div></div>
+                        <span>
+                            <span aria-hidden="true" data-content="4">4</span>
+                        </span>
+                    </button>
+                </li>
+            </ul>
+        </CustomShowList>
+    </CustomShowListWrapper>);
 }
 
 const Option = ({label, selected}) => {
