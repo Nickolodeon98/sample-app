@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from "react";
-import styled from "styled-components";
+import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
 import logo from './netflix_logo.png';
-import popcornIcon from './popcorn.jpg'
-import {createContext, useContext} from "react";
-import {useQuery} from "react-query";
-import async from "async";
+import popcornIcon from './popcorn.jpg';
+import { createContext, useContext } from 'react';
+import { useQuery } from 'react-query';
+import async from 'async';
 
 const CustomBodyWrapper = styled.div`
     background: rgba(0, 0, 0, 0.6);
@@ -13,7 +13,6 @@ const CustomBodyWrapper = styled.div`
 `;
 
 const CustomHeader = styled.header`
-
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -36,7 +35,8 @@ const CustomHeader = styled.header`
         align-items: center;
     }
 
-    .languageSelectBox, .loginButton {
+    .languageSelectBox,
+    .loginButton {
         padding: 8px 12px;
         border-radius: 4px;
         border: none;
@@ -71,7 +71,7 @@ const CustomIntro = styled.div`
     justify-content: center;
 
     &::before {
-        content: "";
+        content: '';
         position: absolute;
         top: 0;
         left: 0;
@@ -240,7 +240,7 @@ const CustomShowList = styled.div`
         font-weight: 900;
         color: rgba(0, 0, 0, 0.8);
         -webkit-text-stroke: 0.125rem rgb(255, 255, 255);
-        text-shadow: 0 0 1.5rem rgba(0, 0, 0, 0.5)
+        text-shadow: 0 0 1.5rem rgba(0, 0, 0, 0.5);
     }
 
     .showBox > div {
@@ -256,11 +256,12 @@ function Clone() {
 
     return (
         <CustomBodyWrapper>
-            <LanguageContext.Provider value={{language, setLanguage}}>
-                <Header/>
-            </LanguageContext.Provider>);
+            <LanguageContext.Provider value={{ language, setLanguage }}>
+                <Header />
+            </LanguageContext.Provider>
+            );
             <CustomBody>
-                <Email/>
+                <Email />
                 <CustomBannerWrapper>
                     {/*<PopcornIcon src={popcornIcon} alt="Popcorn Icon"/>*/}
                     <CustomBanner>
@@ -271,7 +272,7 @@ function Clone() {
                         <button className="detailButton">자세히 알아보기</button>
                     </CustomBanner>
                 </CustomBannerWrapper>
-                <ShowList/>
+                <ShowList />
             </CustomBody>
         </CustomBodyWrapper>
     );
@@ -288,7 +289,9 @@ const Email = () => {
         <CustomIntro>
             <h1 className="mainTitle">영화, 시리즈 등을 무제한으로</h1>
             <p className="subText">5,500원으로 시작하세요. 멤버십은 언제든지 해지 가능합니다.</p>
-            <p className="subSubText">시청할 준비가 되셨나요? 멤버십을 등록하거나 재시작하려면 이메일 주소를 입력하세요.</p>
+            <p className="subSubText">
+                시청할 준비가 되셨나요? 멤버십을 등록하거나 재시작하려면 이메일 주소를 입력하세요.
+            </p>
             <div className="emailInputContainer">
                 <input
                     className="emailInput"
@@ -303,97 +306,125 @@ const Email = () => {
     );
 };
 
-const OPTIONS = [{selection: '한국어'}, {selection: 'English'}];
+const OPTIONS = [{ selection: '한국어' }, { selection: 'English' }];
 const Header = () => {
-    const {language, setLanguage} = useContext(LanguageContext);
+    const { language, setLanguage } = useContext(LanguageContext);
     useEffect(() => {
         if (language === null) {
-            setLanguage({selection: '한국어'});
+            setLanguage({ selection: '한국어' });
         }
     }, [language]);
     return (
         <CustomHeader>
             <img className="logoImage" src={logo} alt="Logo"></img>
             <div className="headerControls">
-                <select className="languageSelectBox" name="LanguageSelect" onChange={e => {
-                    setLanguage({selection: e.currentTarget.value});
-                }}>
-                    {OPTIONS.map(({selection}) => <Option label={selection} selected={language?.selection === selection} />)}
+                <select
+                    className="languageSelectBox"
+                    name="LanguageSelect"
+                    onChange={(e) => {
+                        setLanguage({ selection: e.currentTarget.value });
+                    }}
+                >
+                    {OPTIONS.map(({ selection }) => (
+                        <Option label={selection} selected={language?.selection === selection} />
+                    ))}
                 </select>
+                <Button>d</Button>
             </div>
-        </CustomHeader>)
-}
+        </CustomHeader>
+    );
+};
 
 const ShowList = () => {
-    return (<CustomShowListWrapper>
-        <h1 className="hotContents">
-            지금 뜨는 콘텐츠
-        </h1>
-        <CustomShowList>
-            <ul className="showList">
-                <li>
-                    <button className="showBox">
-                        <div></div>
-                        <span>
-                            <span aria-hidden="true" data-content="1">1</span>
-                        </span>
-                    </button>
-                </li>
-                <li>
-                    <button className="showBox">
-                        <div></div>
-                        <span>
-                            <span aria-hidden="true" data-content="2">2</span>
-                        </span>
-                    </button>
-                </li>
-                <li>
-                    <button className="showBox">
-                        <div></div>
-                        <span>
-                            <span aria-hidden="true" data-content="3">3</span>
-                        </span>
-                    </button>
-                </li>
-                <li>
-                    <button className="showBox">
-                        <div></div>
-                        <span>
-                            <span aria-hidden="true" data-content="4">4</span>
-                        </span>
-                    </button>
-                </li>
-            </ul>
-        </CustomShowList>
-    </CustomShowListWrapper>);
-}
-
-const Option = ({label, selected}) => {
-    return (<option value={label} selected={selected}>{label}</option>);
-}
-
-const Button = ({label, onClick}) => {
     return (
-        <button className="loginButton" onClick={onClick}>{label}</button>
+        <CustomShowListWrapper>
+            <h1 className="hotContents">지금 뜨는 콘텐츠</h1>
+            <CustomShowList>
+                <ul className="showList">
+                    <li>
+                        <button className="showBox">
+                            <div></div>
+                            <span>
+                                <span aria-hidden="true" data-content="1">
+                                    1
+                                </span>
+                            </span>
+                        </button>
+                    </li>
+                    <li>
+                        <button className="showBox">
+                            <div></div>
+                            <span>
+                                <span aria-hidden="true" data-content="2">
+                                    2
+                                </span>
+                            </span>
+                        </button>
+                    </li>
+                    <li>
+                        <button className="showBox">
+                            <div></div>
+                            <span>
+                                <span aria-hidden="true" data-content="3">
+                                    3
+                                </span>
+                            </span>
+                        </button>
+                    </li>
+                    <li>
+                        <button className="showBox">
+                            <div></div>
+                            <span>
+                                <span aria-hidden="true" data-content="4">
+                                    4
+                                </span>
+                            </span>
+                        </button>
+                    </li>
+                </ul>
+            </CustomShowList>
+        </CustomShowListWrapper>
     );
-}
+};
+
+const Option = ({ label, selected }) => {
+    return (
+        <option value={label} selected={selected}>
+            {label}
+        </option>
+    );
+};
+
+const Button = ({ label, onClick }) => {
+    const findMoviesList = FetchList();
+    return (
+        <button className="loginButton" onClick={findMoviesList}>
+            {label}
+        </button>
+    );
+};
+
+const FetchList = () => {
+    const { data, error, isLoading } = useList();
+    console.log(data);
+    return data;
+};
 
 const useList = () => {
     const movieParam = {
-        //key:
-    }
+        key: '92d8f3a182dde9ac583f9167de4dc9d4',
+    };
     return useQuery({
         queryKey: ['movie'],
-        queryFn: () => getMoviesById()
-    })
-}
+        queryFn: () => getMoviesById(movieParam),
+        enabled: true,
+    });
+};
 
 const getMoviesById = async (param) => {
     const url = `http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json`;
-    url.search = new URLSearchParams({param}).toString();
-    const response = await fetch(
-        url
-    )
-}
+    url.search = new URLSearchParams({ param }).toString();
+    const response = await fetch(url);
+};
 
 export default Clone;
