@@ -10,6 +10,7 @@ const CustomBodyWrapper = styled.div`
     background: rgba(0, 0, 0, 0.6);
     display: flex;
     justify-content: center;
+    box-sizing: border-box;
 `;
 
 const CustomHeader = styled.header`
@@ -57,6 +58,11 @@ const CustomBody = styled.div`
     -webkit-box-pack: center;
     -webkit-justify-content: center;
     width: 70%;
+    position: relative;
+
+    .hotContents {
+        color: white;
+    }
 `;
 
 const CustomIntro = styled.div`
@@ -181,15 +187,11 @@ const CustomBanner = styled.div`
 
 const CustomShowListWrapper = styled.div`
     position: relative;
-    display: block;
+    display: flex;
     width: 100%;
     box-sizing: border-box;
     unicode-bidi: isolate;
     -webkit-text-size-adjust: 100%;
-
-    .hotContents {
-        color: white;
-    }
 `;
 
 const CustomShowList = styled.div`
@@ -232,7 +234,7 @@ const CustomShowList = styled.div`
         z-index: 2;
     }
 
-    .showBox > span > span {
+    .showBox > span > .movieOrder {
         line-height: 1;
         display: inline-block;
         height: 1em;
@@ -243,9 +245,48 @@ const CustomShowList = styled.div`
         text-shadow: 0 0 1.5rem rgba(0, 0, 0, 0.5);
     }
 
-    .showBox > div {
+    .showBox > span > .movieTitle {
+        font-size: 0.62rem;
+    }
+
+    .showBox > .movieBox {
         width: 12.5rem;
         height: 25rem;
+    }
+`;
+
+const CustomPageButton = styled.div`
+    position: absolute;
+    height: 100%;
+    border: none;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    z-index: 3;
+    padding-left: 0.75rem;
+    transition: transform 400ms ease-in-out;
+    right: -2rem;
+    left: auto;
+    -webkit-transition: opacity 400ms ease-in-out;
+`;
+
+const CustomPageButtonWrapper = styled.div`
+    .pageButton {
+        height: 5rem;
+        width: 1.5rem;
+        border-radius: 16rem;
+        border: none;
+        display: flex;
+        -webkit-box-align: center;
+        align-items: center;
+        padding: 0;
+        margin: 0;
+        color: rgb(255, 255, 255);
+        background-color: rgba(128, 128, 128, 0.4);
+        -webkit-transition: opacity 400ms ease-in-out;
+        transition: opacity 400ms ease-in-out;
     }
 `;
 
@@ -272,7 +313,11 @@ function Clone() {
                         <button className="detailButton">자세히 알아보기</button>
                     </CustomBanner>
                 </CustomBannerWrapper>
-                <ShowList />
+                <h1 className="hotContents">지금 뜨는 콘텐츠</h1>
+                <CustomShowListWrapper>
+                    <ShowList />
+                    <NextButton />
+                </CustomShowListWrapper>
             </CustomBody>
         </CustomBodyWrapper>
     );
@@ -329,85 +374,59 @@ const Header = () => {
                         <Option label={selection} selected={language?.selection === selection} />
                     ))}
                 </select>
-                <Button>d</Button>
+                <Button label={'something'}>d</Button>
             </div>
         </CustomHeader>
     );
 };
 
 const ShowList = () => {
+    const { data, error, isLoading } = useList();
+
+    const movies = data.movieListResult.movieList;
+
+    console.log(movies[0].movieNm);
     return (
-        <CustomShowListWrapper>
-            <h1 className="hotContents">지금 뜨는 콘텐츠</h1>
-            <CustomShowList>
-                <ul className="showList">
-                    <li>
+        <CustomShowList>
+            <ul className="showList">
+                {movies?.map((movie, index) => (
+                    <li key={movie.movieCd || index}>
                         <button className="showBox">
-                            <div></div>
+                            <div className="movieBox"></div>
                             <span>
-                                <span aria-hidden="true" data-content="1">
-                                    1
+                                <span
+                                    className="movieOrder"
+                                    aria-hidden="true"
+                                    data-content={index + 1}
+                                >
+                                    {index + 1}
+                                </span>
+                                <span
+                                    className="movieTitle"
+                                    aria-hidden="true"
+                                    data-content={index + 1}
+                                >
+                                    {movie.movieNm}
                                 </span>
                             </span>
                         </button>
                     </li>
-                    <li>
-                        <button className="showBox">
-                            <div></div>
-                            <span>
-                                <span aria-hidden="true" data-content="2">
-                                    2
-                                </span>
-                            </span>
-                        </button>
-                    </li>
-                    <li>
-                        <button className="showBox">
-                            <div></div>
-                            <span>
-                                <span aria-hidden="true" data-content="3">
-                                    3
-                                </span>
-                            </span>
-                        </button>
-                    </li>
-                    <li>
-                        <button className="showBox">
-                            <div></div>
-                            <span>
-                                <span aria-hidden="true" data-content="4">
-                                    4
-                                </span>
-                            </span>
-                        </button>
-                    </li>
-                </ul>
-            </CustomShowList>
-        </CustomShowListWrapper>
+                ))}
+            </ul>
+        </CustomShowList>
     );
 };
 
 const Option = ({ label, selected }) => {
     return (
-        <option value={label} selected={selected}>
+        <option value={label} defaultValue={selected}>
             {label}
         </option>
     );
 };
 
-const Button = ({ label, onClick }) => {
-    const findMoviesList = FetchList();
-    return (
-        <button className="loginButton" onClick={findMoviesList}>
-            {label}
-        </button>
-    );
-};
-
-const FetchList = () => {
-    const { data, error, isLoading } = useList();
-    console.log(data);
-    return data;
+const Button = ({ label }) => {
+    return <button className="loginButton">{label}</button>;
 };
 
 const useList = () => {
@@ -416,15 +435,31 @@ const useList = () => {
     };
     return useQuery({
         queryKey: ['movie'],
-        queryFn: () => getMoviesById(movieParam),
+        queryFn: () => getMovies(movieParam),
         enabled: true,
+        // refetchInterval: 10000,
+        // refetchIntervalInBackground: false,
     });
 };
 
-const getMoviesById = async (param) => {
-    const url = `http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json`;
-    url.search = new URLSearchParams({ param }).toString();
+const getMovies = async (param) => {
+    const url = new URL(
+        'http://kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieList.json',
+    );
+    url.search = new URLSearchParams(param).toString();
     const response = await fetch(url);
+
+    return response.json();
+};
+
+const NextButton = () => {
+    return (
+        <CustomPageButton>
+            <CustomPageButtonWrapper aria-hidden="true">
+                <button className="pageButton" aria-label="다음"></button>
+            </CustomPageButtonWrapper>
+        </CustomPageButton>
+    );
 };
 
 export default Clone;

@@ -1,10 +1,15 @@
 import './App.css';
 import Clone from './Clone';
+import { QueryClient, QueryClientProvider } from 'react-query';
+
+const queryClient = new QueryClient();
 
 function App() {
     return (
         <div>
-            <Clone />
+            <QueryClientProvider client={queryClient}>
+                <Clone />
+            </QueryClientProvider>
         </div>
     );
 }
