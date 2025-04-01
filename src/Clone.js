@@ -1,10 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import logo from './netflix_logo.png';
-import popcornIcon from './popcorn.jpg';
-import { createContext, useContext } from 'react';
 import { useQuery } from 'react-query';
-import async from 'async';
 
 const CustomBodyWrapper = styled.div`
     background: rgba(0, 0, 0, 0.6);
@@ -252,6 +249,12 @@ const CustomShowList = styled.div`
     .showBox > .movieBox {
         width: 12.5rem;
         height: 25rem;
+        //background-image: url('https://file.koreafilm.or.kr/thm/02/00/01/46/tn_DPK004440.JPG');
+        background-size: cover; /* div에 꽉 차도록 조정 */
+        border: none;
+        border-radius: 1rem;
+        background-position: center; /* 이미지를 중앙 정렬 */
+        background-repeat: no-repeat; /* 반복 방지 */
     }
 `;
 
@@ -290,6 +293,55 @@ const CustomPageButtonWrapper = styled.div`
     }
 `;
 
+const WholeReasonDivisionWrapper = styled.div`
+    display: flex;
+    flex-direction: row;
+`;
+
+const ReasonBoxesWrapper = styled.div`
+    margin-left: 0.75rem;
+    margin-top: initial;
+`;
+
+const ReasonBox = styled.div`
+    border-radius: 1rem;
+    position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    overflow: hidden;
+    -ms-flex: 1;
+    flex: 1;
+    transition: all 0.5s cubic-bezier(0.33, 0, 0, 1);
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(12px);
+
+    .box {
+        grid-template-columns: 1fr;
+        display: flex;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        max-width: 400px;
+        max-height: 250px;
+        min-height: 200px;
+    }
+
+    .boxTitle {
+        font-size: 1.125rem;
+        font-weight: 500;
+    }
+
+    .boxContent {
+        margin-top: 0.75rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .boxText {
+        font-size: 1rem;
+        font-weight: 400;
+    }
+`;
+
 const LanguageContext = createContext(null);
 
 function Clone() {
@@ -318,6 +370,63 @@ function Clone() {
                     <ShowList />
                     <NextButton />
                 </CustomShowListWrapper>
+                <h1 className="hotContents">가입해야 하는 또 다른 이유</h1>
+                <WholeReasonDivisionWrapper>
+                    <ReasonBoxesWrapper>
+                        <ReasonBox>
+                            <div className="box">
+                                <h3 className="boxTitle">TV로 즐기세요</h3>
+                                <div className="boxContent">
+                                    <p className="boxText">
+                                        스마트 TV, PlayStation, Xbox, Chromecast, Apple TV, 블루레이
+                                        플레이어 등 다양한 디바이스에서 시청하세요.
+                                    </p>
+                                </div>
+                            </div>
+                        </ReasonBox>
+                    </ReasonBoxesWrapper>
+                    <ReasonBoxesWrapper>
+                        <ReasonBox>
+                            <div className="box">
+                                <h3 className="boxTitle">
+                                    즐겨 보는 콘텐츠를 저장해 오프라인으로 시청하세요
+                                </h3>
+                                <div className="boxContent">
+                                    <p className="boxText">
+                                        간편하게 저장하고 빈틈없이 즐겨보세요.
+                                    </p>
+                                </div>
+                            </div>
+                        </ReasonBox>
+                    </ReasonBoxesWrapper>
+                    <ReasonBoxesWrapper>
+                        <ReasonBox>
+                            <div className="box">
+                                <h3 className="boxTitle">다양한 디바이스로 시청하세요</h3>
+                                <div className="boxContent">
+                                    <p className="boxText">
+                                        각종 영화와 시리즈를 스마트폰, 태블릿, 노트북, TV에서
+                                        무제한으로 스트리밍하세요.
+                                    </p>
+                                </div>
+                            </div>
+                        </ReasonBox>
+                    </ReasonBoxesWrapper>
+                    <ReasonBoxesWrapper>
+                        <ReasonBox>
+                            <div className="box">
+                                <h3 className="boxTitle">어린이 전용 프로필을 만들어 보세요</h3>
+                                <div className="boxContent">
+                                    <p className="boxText">
+                                        자기만의 공간에서 좋아하는 캐릭터와 즐기는 신나는 모험.
+                                        자녀에게 이 특별한 경험을 선물하세요. 넷플릭스 회원이라면
+                                        무료입니다.
+                                    </p>
+                                </div>
+                            </div>
+                        </ReasonBox>
+                    </ReasonBoxesWrapper>
+                </WholeReasonDivisionWrapper>
             </CustomBody>
         </CustomBodyWrapper>
     );
@@ -374,44 +483,56 @@ const Header = () => {
                         <Option label={selection} selected={language?.selection === selection} />
                     ))}
                 </select>
-                <Button label={'something'}>d</Button>
+                <Button label={'로그인'}>d</Button>
             </div>
         </CustomHeader>
     );
 };
 
+const Posters = (movieNm) => usePostersList(movieNm);
+
 const ShowList = () => {
     const { data, error, isLoading } = useList();
-
     const movies = data.movieListResult.movieList;
 
-    console.log(movies[0].movieNm);
+    const postersData = movies.map((movie) => {
+        return Posters(movie.movieNm);
+    });
+
     return (
         <CustomShowList>
             <ul className="showList">
-                {movies?.map((movie, index) => (
-                    <li key={movie.movieCd || index}>
-                        <button className="showBox">
-                            <div className="movieBox"></div>
-                            <span>
-                                <span
-                                    className="movieOrder"
-                                    aria-hidden="true"
-                                    data-content={index + 1}
-                                >
-                                    {index + 1}
+                {movies?.map((movie, index) => {
+                    const posterUrl =
+                        postersData[index]?.data?.Data?.[0]?.Result?.[0]?.posters?.split('|')[0] ||
+                        '';
+                    return (
+                        <li key={movie.movieCd || index}>
+                            <button className="showBox">
+                                <div
+                                    className="movieBox"
+                                    style={{
+                                        backgroundImage: posterUrl ? `url(${posterUrl})` : 'none',
+                                    }}
+                                ></div>
+                                <span>
+                                    <span
+                                        className="movieOrder"
+                                        aria-hidden="true"
+                                        data-content={index + 1}
+                                    >
+                                        {index + 1}
+                                    </span>
+                                    <span
+                                        className="movieTitle"
+                                        aria-hidden="true"
+                                        data-content={index + 1}
+                                    ></span>
                                 </span>
-                                <span
-                                    className="movieTitle"
-                                    aria-hidden="true"
-                                    data-content={index + 1}
-                                >
-                                    {movie.movieNm}
-                                </span>
-                            </span>
-                        </button>
-                    </li>
-                ))}
+                            </button>
+                        </li>
+                    );
+                })}
             </ul>
         </CustomShowList>
     );
@@ -442,12 +563,40 @@ const useList = () => {
     });
 };
 
+const usePostersList = (movieNm) => {
+    const moviePosterParam = {
+        ServiceKey: '20OWTU78NK14W9DA623N',
+        collection: 'kmdb_new2',
+        detail: 'Y',
+        query: movieNm,
+    };
+
+    return useQuery({
+        queryKey: [movieNm],
+        queryFn: () => getMoviePosters(moviePosterParam),
+        enabled: true,
+        // refetchInterval: 10000,
+        // refetchIntervalInBackground: false,
+    });
+};
+
 const getMovies = async (param) => {
     const url = new URL(
         'http://kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieList.json',
     );
     url.search = new URLSearchParams(param).toString();
     const response = await fetch(url);
+
+    return response.json();
+};
+
+const getMoviePosters = async (param) => {
+    const url = new URL(
+        'http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp',
+    );
+    url.search = new URLSearchParams(param).toString();
+    const response = await fetch(url);
+    // console.log(response.json());
 
     return response.json();
 };
