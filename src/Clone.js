@@ -1,7 +1,7 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, {createContext, useContext, useEffect, useState} from 'react';
 import styled from 'styled-components';
 import logo from './netflix_logo.png';
-import { useQuery } from 'react-query';
+import {useQueries, useQuery} from 'react-query';
 
 const CustomBodyWrapper = styled.div`
     background: rgba(0, 0, 0, 0.6);
@@ -323,7 +323,7 @@ const ReasonBox = styled.div`
         flex-direction: column;
         max-width: 400px;
         max-height: 250px;
-        min-height: 200px;
+        min-height: 230px;
     }
 
     .boxTitle {
@@ -344,17 +344,76 @@ const ReasonBox = styled.div`
 
 const LanguageContext = createContext(null);
 
+const Reason = () => {
+    return (<WholeReasonDivisionWrapper>
+        <ReasonBoxesWrapper>
+            <ReasonBox>
+                <div className="box">
+                    <h3 className="boxTitle">TV로 즐기세요</h3>
+                    <div className="boxContent">
+                        <p className="boxText">
+                            스마트 TV, PlayStation, Xbox, Chromecast, Apple TV, 블루레이
+                            플레이어 등 다양한 디바이스에서 시청하세요.
+                        </p>
+                    </div>
+                </div>
+            </ReasonBox>
+        </ReasonBoxesWrapper>
+        <ReasonBoxesWrapper>
+            <ReasonBox>
+                <div className="box">
+                    <h3 className="boxTitle">
+                        즐겨 보는 콘텐츠를 저장해 오프라인으로 시청하세요
+                    </h3>
+                    <div className="boxContent">
+                        <p className="boxText">
+                            간편하게 저장하고 빈틈없이 즐겨보세요.
+                        </p>
+                    </div>
+                </div>
+            </ReasonBox>
+        </ReasonBoxesWrapper>
+        <ReasonBoxesWrapper>
+            <ReasonBox>
+                <div className="box">
+                    <h3 className="boxTitle">다양한 디바이스로 시청하세요</h3>
+                    <div className="boxContent">
+                        <p className="boxText">
+                            각종 영화와 시리즈를 스마트폰, 태블릿, 노트북, TV에서
+                            무제한으로 스트리밍하세요.
+                        </p>
+                    </div>
+                </div>
+            </ReasonBox>
+        </ReasonBoxesWrapper>
+        <ReasonBoxesWrapper>
+            <ReasonBox>
+                <div className="box">
+                    <h3 className="boxTitle">어린이 전용 프로필을 만들어 보세요</h3>
+                    <div className="boxContent">
+                        <p className="boxText">
+                            자기만의 공간에서 좋아하는 캐릭터와 즐기는 신나는 모험.
+                            자녀에게 이 특별한 경험을 선물하세요. 넷플릭스 회원이라면
+                            무료입니다.
+                        </p>
+                    </div>
+                </div>
+            </ReasonBox>
+        </ReasonBoxesWrapper>
+    </WholeReasonDivisionWrapper>);
+}
+
 function Clone() {
     const [language, setLanguage] = useState(null);
 
     return (
         <CustomBodyWrapper>
-            <LanguageContext.Provider value={{ language, setLanguage }}>
-                <Header />
+            <LanguageContext.Provider value={{language, setLanguage}}>
+                <Header/>
             </LanguageContext.Provider>
             );
             <CustomBody>
-                <Email />
+                <Email/>
                 <CustomBannerWrapper>
                     {/*<PopcornIcon src={popcornIcon} alt="Popcorn Icon"/>*/}
                     <CustomBanner>
@@ -367,66 +426,11 @@ function Clone() {
                 </CustomBannerWrapper>
                 <h1 className="hotContents">지금 뜨는 콘텐츠</h1>
                 <CustomShowListWrapper>
-                    <ShowList />
-                    <NextButton />
+                    <ShowList/>
+                    <NextButton/>
                 </CustomShowListWrapper>
                 <h1 className="hotContents">가입해야 하는 또 다른 이유</h1>
-                <WholeReasonDivisionWrapper>
-                    <ReasonBoxesWrapper>
-                        <ReasonBox>
-                            <div className="box">
-                                <h3 className="boxTitle">TV로 즐기세요</h3>
-                                <div className="boxContent">
-                                    <p className="boxText">
-                                        스마트 TV, PlayStation, Xbox, Chromecast, Apple TV, 블루레이
-                                        플레이어 등 다양한 디바이스에서 시청하세요.
-                                    </p>
-                                </div>
-                            </div>
-                        </ReasonBox>
-                    </ReasonBoxesWrapper>
-                    <ReasonBoxesWrapper>
-                        <ReasonBox>
-                            <div className="box">
-                                <h3 className="boxTitle">
-                                    즐겨 보는 콘텐츠를 저장해 오프라인으로 시청하세요
-                                </h3>
-                                <div className="boxContent">
-                                    <p className="boxText">
-                                        간편하게 저장하고 빈틈없이 즐겨보세요.
-                                    </p>
-                                </div>
-                            </div>
-                        </ReasonBox>
-                    </ReasonBoxesWrapper>
-                    <ReasonBoxesWrapper>
-                        <ReasonBox>
-                            <div className="box">
-                                <h3 className="boxTitle">다양한 디바이스로 시청하세요</h3>
-                                <div className="boxContent">
-                                    <p className="boxText">
-                                        각종 영화와 시리즈를 스마트폰, 태블릿, 노트북, TV에서
-                                        무제한으로 스트리밍하세요.
-                                    </p>
-                                </div>
-                            </div>
-                        </ReasonBox>
-                    </ReasonBoxesWrapper>
-                    <ReasonBoxesWrapper>
-                        <ReasonBox>
-                            <div className="box">
-                                <h3 className="boxTitle">어린이 전용 프로필을 만들어 보세요</h3>
-                                <div className="boxContent">
-                                    <p className="boxText">
-                                        자기만의 공간에서 좋아하는 캐릭터와 즐기는 신나는 모험.
-                                        자녀에게 이 특별한 경험을 선물하세요. 넷플릭스 회원이라면
-                                        무료입니다.
-                                    </p>
-                                </div>
-                            </div>
-                        </ReasonBox>
-                    </ReasonBoxesWrapper>
-                </WholeReasonDivisionWrapper>
+                <Reason/>
             </CustomBody>
         </CustomBodyWrapper>
     );
@@ -460,12 +464,12 @@ const Email = () => {
     );
 };
 
-const OPTIONS = [{ selection: '한국어' }, { selection: 'English' }];
+const OPTIONS = [{selection: '한국어'}, {selection: 'English'}];
 const Header = () => {
-    const { language, setLanguage } = useContext(LanguageContext);
+    const {language, setLanguage} = useContext(LanguageContext);
     useEffect(() => {
         if (language === null) {
-            setLanguage({ selection: '한국어' });
+            setLanguage({selection: '한국어'});
         }
     }, [language]);
     return (
@@ -476,11 +480,11 @@ const Header = () => {
                     className="languageSelectBox"
                     name="LanguageSelect"
                     onChange={(e) => {
-                        setLanguage({ selection: e.currentTarget.value });
+                        setLanguage({selection: e.currentTarget.value});
                     }}
                 >
-                    {OPTIONS.map(({ selection }) => (
-                        <Option label={selection} selected={language?.selection === selection} />
+                    {OPTIONS.map(({selection}) => (
+                        <Option label={selection} selected={language?.selection === selection}/>
                     ))}
                 </select>
                 <Button label={'로그인'}>d</Button>
@@ -489,33 +493,44 @@ const Header = () => {
     );
 };
 
-const Posters = (movieNm) => usePostersList(movieNm);
+//const Posters = (movieNm) => usePostersList(movieNm);
+
+const MOVIES = [null, null, null, null, null]
 
 const ShowList = () => {
-    const { data, error, isLoading } = useList();
-    const movies = data.movieListResult.movieList;
 
-    const postersData = movies.map((movie) => {
-        return Posters(movie.movieNm);
-    });
+    const {data, error, isLoading} = useList();
+
+    const postersData = usePostersList(data);
 
     return (
         <CustomShowList>
             <ul className="showList">
-                {movies?.map((movie, index) => {
-                    const posterUrl =
-                        postersData[index]?.data?.Data?.[0]?.Result?.[0]?.posters?.split('|')[0] ||
-                        '';
-                    return (
-                        <li key={movie.movieCd || index}>
-                            <button className="showBox">
-                                <div
-                                    className="movieBox"
-                                    style={{
-                                        backgroundImage: posterUrl ? `url(${posterUrl})` : 'none',
-                                    }}
-                                ></div>
-                                <span>
+                {!data ?
+                    MOVIES.map((movie, index) => {
+                        return <Poster key={index} posterUrl={null} index={index} />;
+                    }) : data.movieListResult.movieList.map((movie, index) => {
+                        //console.log(postersData[index]?.data?.Data);
+                        const posterUrl =
+                            postersData[index]?.data?.Data?.[0]?.Result?.[0]?.posters?.split('|')[0] ||
+                            '';
+                        return <Poster key={index} posterUrl={posterUrl} index={index} />
+                    })}
+            </ul>
+        </CustomShowList>
+    )
+        ;
+};
+
+const Poster = ({posterUrl, index}) => {
+    return <li><button className="showBox">
+        <div
+            className="movieBox"
+            style={{
+                backgroundImage: posterUrl ? `url(${posterUrl})` : 'none',
+            }}
+        ></div>
+        <span>
                                     <span
                                         className="movieOrder"
                                         aria-hidden="true"
@@ -529,16 +544,10 @@ const ShowList = () => {
                                         data-content={index + 1}
                                     ></span>
                                 </span>
-                            </button>
-                        </li>
-                    );
-                })}
-            </ul>
-        </CustomShowList>
-    );
-};
+    </button></li>
+}
 
-const Option = ({ label, selected }) => {
+const Option = ({label, selected}) => {
     return (
         <option value={label} defaultValue={selected}>
             {label}
@@ -546,7 +555,7 @@ const Option = ({ label, selected }) => {
     );
 };
 
-const Button = ({ label }) => {
+const Button = ({label}) => {
     return <button className="loginButton">{label}</button>;
 };
 
@@ -563,21 +572,20 @@ const useList = () => {
     });
 };
 
-const usePostersList = (movieNm) => {
-    const moviePosterParam = {
-        ServiceKey: '20OWTU78NK14W9DA623N',
-        collection: 'kmdb_new2',
-        detail: 'Y',
-        query: movieNm,
-    };
-
-    return useQuery({
-        queryKey: [movieNm],
-        queryFn: () => getMoviePosters(moviePosterParam),
-        enabled: true,
-        // refetchInterval: 10000,
-        // refetchIntervalInBackground: false,
-    });
+const usePostersList = (movieData) => {
+    return useQueries((movieData?.movieListResult.movieList ?? MOVIES).map((movie) => {
+        const moviePosterParam = {
+            ServiceKey: '20OWTU78NK14W9DA623N',
+            collection: 'kmdb_new2',
+            detail: 'Y',
+            query: movie?.movieNm,
+        };
+        return {
+            queryKey: [movie?.movieNm],
+            queryFn: () => getMoviePosters(moviePosterParam),
+            enabled: movieData !== null
+        }
+    }));
 };
 
 const getMovies = async (param) => {
