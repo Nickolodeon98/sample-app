@@ -529,20 +529,20 @@ const ShowList = () => {
     );
 };
 
-const Poster = ({ posterUrl, index }) => (
-    <SliderContext.Consumer>
-        {({ onSelectSlide, currentSlide, elementRef }) => {
-            const isActive = currentSlide && currentSlide.id === index;
-            return (
-                <li>
-                    <button className="showBox">
-                        <div
-                            className="movieBox"
-                            style={{
-                                backgroundImage: posterUrl ? `url(${posterUrl})` : 'none',
-                            }}
-                        ></div>
-                        <span>
+const Poster = ({ posterUrl, index }) => {
+    const {onSelectSlide, currentSlide, elementRef} = useContext(SliderContext);
+    const isActive = currentSlide && currentSlide.id === index;
+
+    return (
+        <li>
+            <button className="showBox">
+                <div
+                    className="movieBox"
+                    style={{
+                        backgroundImage: posterUrl ? `url(${posterUrl})` : 'none',
+                    }}
+                ></div>
+                <span>
                             <span
                                 className="movieOrder"
                                 aria-hidden="true"
@@ -556,12 +556,10 @@ const Poster = ({ posterUrl, index }) => (
                                 data-content={index + 1}
                             ></span>
                         </span>
-                    </button>
-                </li>
-            );
-        }}
-    </SliderContext.Consumer>
-);
+            </button>
+        </li>
+    );
+};
 
 const Option = ({ label, selected }) => {
     return (
