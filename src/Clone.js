@@ -2,6 +2,8 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import logo from './netflix_logo.png';
 import { useQueries, useQuery } from 'react-query';
+import Slider from './Slider';
+import SliderContext from './context';
 
 const CustomBodyWrapper = styled.div`
     background: rgba(0, 0, 0, 0.6);
@@ -344,8 +346,6 @@ const ReasonBox = styled.div`
 
 const CustomQuestion = styled.div``;
 
-const LanguageContext = createContext(null);
-
 const Reason = () => {
     return (
         <WholeReasonDivisionWrapper>
@@ -403,6 +403,8 @@ const Reason = () => {
         </WholeReasonDivisionWrapper>
     );
 };
+
+const LanguageContext = createContext(null);
 
 function Clone() {
     const [language, setLanguage] = useState(null);
@@ -504,56 +506,62 @@ const ShowList = () => {
     const { data, error, isLoading } = useList();
 
     const postersData = usePostersList(data);
-    console.log('this is: ');
-
-    // useEffect(() => {
-    //     for (var i = 0; i < postersData.length; i++) {
-    //         postersData[i].data.Data[0].Result[0].posters;
-    //     }
-    // }, []);
-
-    const postersArr = [{ key: 1 }, { key: 2 }, { key: 3 }, { key: 4 }];
 
     return (
         <CustomShowList>
             <ul className="showList">
-                {!data
-                    ? MOVIES.map((movie, index) => {
-                          return <Poster key={index} posterUrl={null} index={index} />;
-                      })
-                    : data.movieListResult.movieList.map((movie, index) => {
-                          //console.log(postersData[index]?.data?.Data);
-                          const posterUrl =
-                              postersData[index]?.data?.Data?.[0]?.Result?.[0]?.posters?.split(
-                                  '|',
-                              )[0] || '';
-                          return <Poster key={index} posterUrl={posterUrl} index={index} />;
-                      })}
+                <Slider>
+                    {!data
+                        ? MOVIES.map((movie, index) => {
+                              return <Poster key={index} posterUrl={null} index={index} />;
+                          })
+                        : data.movieListResult.movieList.map((movie, index) => {
+                              //console.log(postersData[index]?.data?.Data);
+                              const posterUrl =
+                                  postersData[index]?.data?.Data?.[0]?.Result?.[0]?.posters?.split(
+                                      '|',
+                                  )[0] || '';
+                              return <Poster key={index} posterUrl={posterUrl} index={index} />;
+                          })}
+                </Slider>
             </ul>
         </CustomShowList>
     );
 };
 
-const Poster = ({ posterUrl, index }) => {
-    return (
-        <li>
-            <button className="showBox">
-                <div
-                    className="movieBox"
-                    style={{
-                        backgroundImage: posterUrl ? `url(${posterUrl})` : 'none',
-                    }}
-                ></div>
-                <span>
-                    <span className="movieOrder" aria-hidden="true" data-content={index + 1}>
-                        {index + 1}
-                    </span>
-                    <span className="movieTitle" aria-hidden="true" data-content={index + 1}></span>
-                </span>
-            </button>
-        </li>
-    );
-};
+const Poster = ({ posterUrl, index }) => (
+    <SliderContext.Consumer>
+        {({ onSelectSlide, currentSlide, elementRef }) => {
+            const isActive = currentSlide && currentSlide.id === index;
+            return (
+                <li>
+                    <button className="showBox">
+                        <div
+                            className="movieBox"
+                            style={{
+                                backgroundImage: posterUrl ? `url(${posterUrl})` : 'none',
+                            }}
+                        ></div>
+                        <span>
+                            <span
+                                className="movieOrder"
+                                aria-hidden="true"
+                                data-content={index + 1}
+                            >
+                                {index + 1}
+                            </span>
+                            <span
+                                className="movieTitle"
+                                aria-hidden="true"
+                                data-content={index + 1}
+                            ></span>
+                        </span>
+                    </button>
+                </li>
+            );
+        }}
+    </SliderContext.Consumer>
+);
 
 const Option = ({ label, selected }) => {
     return (
