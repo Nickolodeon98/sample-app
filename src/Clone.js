@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import logo from './netflix_logo.png';
 import { useQueries, useQuery } from 'react-query';
 import Slider from './Slider';
-import SliderContext from './context';
+import Item from './Item';
 
 const CustomBodyWrapper = styled.div`
     background: rgba(0, 0, 0, 0.6);
@@ -193,73 +193,6 @@ const CustomShowListWrapper = styled.div`
     -webkit-text-size-adjust: 100%;
 `;
 
-const CustomShowList = styled.div`
-    border-radius: 0.5rem;
-    width: 100%;
-    mask: linear-gradient(to left, transparent, black 10%);
-
-    .showList {
-        position: relative;
-        display: flex;
-        margin: 0;
-        padding: 0;
-        list-style: none;
-        overflow-y: visible;
-        overflow-x: scroll;
-        scrollbar-width: none;
-        -webkit-scroll-snap-type: x mandatory;
-        scroll-snap-type: x mandatory;
-        scroll-margin-inline-start: 2.5em;
-    }
-
-    .showList > li {
-        padding: 0.8rem 1rem;
-    }
-
-    .showBox {
-        position: relative;
-        padding: 0;
-        background: rgb(35, 35, 35);
-        border: none;
-        border-radius: 1rem;
-        transition: transform 0.2s ease-in-out;
-    }
-
-    .showBox > span {
-        font-size: 3rem;
-        top: 0.1rem;
-        left: -0.925rem;
-        position: absolute;
-        z-index: 2;
-    }
-
-    .showBox > span > .movieOrder {
-        line-height: 1;
-        display: inline-block;
-        height: 1em;
-        position: relative;
-        font-weight: 900;
-        color: rgba(0, 0, 0, 0.8);
-        -webkit-text-stroke: 0.125rem rgb(255, 255, 255);
-        text-shadow: 0 0 1.5rem rgba(0, 0, 0, 0.5);
-    }
-
-    .showBox > span > .movieTitle {
-        font-size: 0.62rem;
-    }
-
-    .showBox > .movieBox {
-        width: 12.5rem;
-        height: 25rem;
-        //background-image: url('https://file.koreafilm.or.kr/thm/02/00/01/46/tn_DPK004440.JPG');
-        background-size: cover; /* div에 꽉 차도록 조정 */
-        border: none;
-        border-radius: 1rem;
-        background-position: center; /* 이미지를 중앙 정렬 */
-        background-repeat: no-repeat; /* 반복 방지 */
-    }
-`;
-
 const CustomPageButton = styled.div`
     position: absolute;
     height: 100%;
@@ -428,9 +361,12 @@ function Clone() {
                     </CustomBanner>
                 </CustomBannerWrapper>
                 <h1 className="hotContents">지금 뜨는 콘텐츠</h1>
+                {/*<CustomShowListWrapper>*/}
+                {/*    <ShowList />*/}
+                {/*    <NextButton />*/}
+                {/*</CustomShowListWrapper>*/}
                 <CustomShowListWrapper>
-                    <ShowList />
-                    <NextButton />
+                    <SampleSlider />
                 </CustomShowListWrapper>
                 <h1 className="hotContents">가입해야 하는 또 다른 이유</h1>
                 <Reason />
@@ -502,62 +438,33 @@ const Header = () => {
 
 const MOVIES = [null, null, null, null, null];
 
-const ShowList = () => {
+const SampleSlider = () => {
     const { data, error, isLoading } = useList();
-
     const postersData = usePostersList(data);
 
     return (
-        <CustomShowList>
-            <ul className="showList">
-                <Slider>
-                    {!data
-                        ? MOVIES.map((movie, index) => {
-                              return <Poster key={index} posterUrl={null} index={index} />;
-                          })
-                        : data.movieListResult.movieList.map((movie, index) => {
-                              //console.log(postersData[index]?.data?.Data);
-                              const posterUrl =
-                                  postersData[index]?.data?.Data?.[0]?.Result?.[0]?.posters?.split(
-                                      '|',
-                                  )[0] || '';
-                              return <Poster key={index} posterUrl={posterUrl} index={index} />;
-                          })}
-                </Slider>
-            </ul>
-        </CustomShowList>
+        <Slider activeSlide={null}>
+            {!data
+                ? MOVIES.map((movie, index) => {
+                      return <Poster key={index} posterUrl={null} index={index} />;
+                  })
+                : data.movieListResult.movieList.map((movie, index) => {
+                      //console.log(postersData[index]?.data?.Data);
+                      const posterUrl =
+                          postersData[index]?.data?.Data?.[0]?.Result?.[0]?.posters?.split(
+                              '|',
+                          )[0] || '';
+                      return <Poster key={index} posterUrl={posterUrl} index={index} />;
+                  })}
+        </Slider>
     );
 };
 
 const Poster = ({ posterUrl, index }) => {
-    const {onSelectSlide, currentSlide, elementRef} = useContext(SliderContext);
-    const isActive = currentSlide && currentSlide.id === index;
-
     return (
-        <li>
-            <button className="showBox">
-                <div
-                    className="movieBox"
-                    style={{
-                        backgroundImage: posterUrl ? `url(${posterUrl})` : 'none',
-                    }}
-                ></div>
-                <span>
-                            <span
-                                className="movieOrder"
-                                aria-hidden="true"
-                                data-content={index + 1}
-                            >
-                                {index + 1}
-                            </span>
-                            <span
-                                className="movieTitle"
-                                aria-hidden="true"
-                                data-content={index + 1}
-                            ></span>
-                        </span>
-            </button>
-        </li>
+        <div className="show_list">
+            <Item posterUrl={posterUrl} index={index} />
+        </div>
     );
 };
 
