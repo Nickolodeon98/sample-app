@@ -5,6 +5,7 @@ import { useQueries, useQuery } from 'react-query';
 import Slider from './Slider';
 import Item from './Item';
 import Question from './Question';
+
 const CustomBodyWrapper = styled.div`
     background: rgba(0, 0, 0, 0.6);
     display: flex;

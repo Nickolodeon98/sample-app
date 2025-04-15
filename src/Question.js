@@ -58,15 +58,12 @@ const questionsReducer = (state, action) => {
         const questionId = action.payload.questionId;
         const changedQuestions = state.questions.map((q) => {
             if (q.questionId === questionId) {
-                console.log(q.collapsed);
-                q.collapsed = !q.collapsed;
-                console.log(q.collapsed);
-            } else {
-                q.collapsed = false;
+                const newCollapsed = !q.collapsed;
+                return { ...q, collapsed: newCollapsed };
             }
-            return { ...q };
+            return { ...q, collapsed: false };
         });
-        // console.log(changedQuestions);
+        
         return { questions: changedQuestions };
     }
     return state;
@@ -87,6 +84,7 @@ const Question = () => {
 const QuestionSection = () => {
     const dispatch = useContext(QuestionDispatchContext);
     const { questions } = useContext(QuestionContext);
+    console.log(questions);
 
     return questions.map((question) => (
         <CustomQuestionSection key={question.questionId}>
