@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import useSizeElement from './useSizeElement';
 import useSliding from './useSliding';
-import SliderContext from './context';
+import { SliderContext } from './context';
 import styled from 'styled-components';
 import IconArrowDown from './IconArrowDown';
 
@@ -169,7 +169,7 @@ const Slider = ({ children, activeSlide }) => {
         React.Children.count(children),
     );
 
-    console.log('slideProps: ' + distance);
+    // console.log('slideProps: ' + distance);
 
     const contextValue = {
         currentSlide,

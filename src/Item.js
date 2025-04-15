@@ -1,4 +1,4 @@
-import SliderContext from './context';
+import { SliderContext, QuestionContext } from './context';
 import React, { useContext } from 'react';
 
 const Item = ({ posterUrl, index }) => {

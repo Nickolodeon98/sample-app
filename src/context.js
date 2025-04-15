@@ -1,5 +1,6 @@
 import React from 'react';
 
 const SliderContext = React.createContext();
+const QuestionContext = React.createContext();
 
-export default SliderContext;
+export { SliderContext, QuestionContext };
