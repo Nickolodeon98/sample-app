@@ -7,7 +7,7 @@ import IconArrowDown from './IconArrowDown';
 
 const SlideButtonWrapper = styled.div`
     position: absolute;
-    top: calc(50% - 55px);
+    top: calc(50% - 55px - 1.5rem);
     width: 55px;
     //background: rgba(0, 0, 0, 0.5);
     border: 0;
@@ -16,7 +16,23 @@ const SlideButtonWrapper = styled.div`
     margin: 40px 0;
     z-index: 4;
 
-    span {
+    .buttonWrapper {
+        height: 5rem;
+        width: 1.5rem;
+        border-radius: 16rem;
+        border: none;
+        display: flex;
+        -webkit-box-align: center;
+        align-items: center;
+        padding: 0;
+        margin: 0;
+        color: rgb(255, 255, 255);
+        background-color: rgba(128, 128, 128, 0.4);
+        -webkit-transition: opacity 400ms ease-in-out;
+        transition: opacity 400ms ease-in-out;
+    }
+
+    .slideButton {
         width: 25px;
         color: #fff;
         display: block;
@@ -24,18 +40,14 @@ const SlideButtonWrapper = styled.div`
     }
 
     &.slide-button--next {
-        right: -50px;
-
-        span {
-            transform: rotateZ(-90deg);
-        }
+        right: -57px;
     }
 
     &.slide-button--prev {
-        left: -50px;
+        left: -57px;
 
-        span {
-            transform: rotateZ(90deg);
+        .slideButton {
+            transform: rotateZ(180deg);
         }
     }
 `;
@@ -119,8 +131,10 @@ const SliderWrapper = ({ children }) => (
 );
 const SlideButton = ({ onClick, type }) => (
     <SlideButtonWrapper className={`slide-button--${type}`} onClick={onClick}>
-        <span>
+        <span className='buttonWrapper'>
+        <span className='slideButton'>
             <IconArrowDown />
+        </span>
         </span>
     </SlideButtonWrapper>
 );
