@@ -1,14 +1,11 @@
 import { useContext } from 'react';
 import { QuestionContext } from './context';
+import QuestionAnswersButton from './QuestionAnswersButton';
 
-const Answer = () => {
-    const { onSelectQuestion } = useContext(QuestionContext);
+const Answer = ({ onClick }) => {
+    const state = useContext(QuestionContext);
 
-    return (
-        <div>
-            <h1>Answer</h1>
-        </div>
-    );
-};  
+    return <QuestionAnswersButton onClick={onClick}></QuestionAnswersButton>;
+};
 
 export default Answer;

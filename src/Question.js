@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 import QuestionAnswersButton from './QuestionAnswersButton';
-import { QuestionContext } from './context';
-import { useContext } from 'react';
+import { QuestionContext, QuestionDispatchContext } from './context';
+import { useContext, useReducer } from 'react';
+import Answer from './Answer';
 
 const CustomQuestionSection = styled.div`
     display: flex;
@@ -29,34 +30,79 @@ const CustomQuestion = styled.div`
     color: #fff;
 `;
 
-const QUESTIONS = ['넷플릭스에서 어떤 콘텐츠를 시청할 수 있나요?',
-    '넷플릭스란 무엇인가요?',
-    '넷플릭스 요금은 얼마인가요?',
-    '어디에서 시청할 수 있나요?',
-    '멤버십을 해지하려면 어떻게 하나요?',
-    '아이들이 넷플릭스를 봐도 좋을까요?'
+const QUESTIONS = [
+    {
+        questionId: 'a',
+        question: '넷플릭스에서 어떤 콘텐츠를 시청할 수 있나요?',
+        answer: '',
+        collapsed: true,
+    },
+    { questionId: 'b', question: '넷플릭스란 무엇인가요?', answer: '', collapsed: true },
+    { questionId: 'c', question: '넷플릭스 요금은 얼마인가요?', answer: '', collapsed: true },
+    { questionId: 'd', question: '어디에서 시청할 수 있나요?', answer: '', collapsed: true },
+    {
+        questionId: 'e',
+        question: '멤버십을 해지하려면 어떻게 하나요?',
+        answer: '',
+        collapsed: true,
+    },
+    {
+        questionId: 'f',
+        question: '아이들이 넷플릭스를 봐도 좋을까요?',
+        answer: '',
+        collapsed: true,
+    },
 ];
-
-const onSelectQuestion = () => {
-    console.log('clicked');
+const questionsReducer = (state, action) => {
+    if (action.type === 'toggleCollapsed') {
+        const questionId = action.payload.questionId;
+        const changedQuestions = state.questions.map((q) => {
+            if (q.questionId === questionId) {
+                console.log(q.collapsed);
+                q.collapsed = !q.collapsed;
+                console.log(q.collapsed);
+            } else {
+                q.collapsed = false;
+            }
+            return { ...q };
+        });
+        // console.log(changedQuestions);
+        return { questions: changedQuestions };
+    }
+    return state;
 };
 
 const Question = () => {
+    const [state, dispatch] = useReducer(questionsReducer, { questions: QUESTIONS });
 
     return (
-        <QuestionContext.Provider value={{questions: QUESTIONS}}>
-            {QUESTIONS.map((question, index) => (
-                <CustomQuestionSection>
-                    <CustomQuestionWrapper>
-                        <CustomQuestion key={index}>
-                            {question}
-                        </CustomQuestion>
-                        <QuestionAnswersButton onClick={() => onSelectQuestion()} />
-                    </CustomQuestionWrapper>
-                </CustomQuestionSection>
-            ))}
-        </QuestionContext.Provider>
+        <QuestionDispatchContext.Provider value={dispatch}>
+            <QuestionContext.Provider value={state}>
+                <QuestionSection />
+            </QuestionContext.Provider>
+        </QuestionDispatchContext.Provider>
     );
-};  
+};
+
+const QuestionSection = () => {
+    const dispatch = useContext(QuestionDispatchContext);
+    const { questions } = useContext(QuestionContext);
+
+    return questions.map((question) => (
+        <CustomQuestionSection key={question.questionId}>
+            <CustomQuestionWrapper>
+                <CustomQuestion key={question.questionId}>{question.question}</CustomQuestion>
+                <Answer
+                    onClick={() => {
+                        dispatch({
+                            type: 'toggleCollapsed',
+                            payload: { questionId: question.questionId },
+                        });
+                    }}
+                />
+            </CustomQuestionWrapper>
+        </CustomQuestionSection>
+    ));
+};
 
 export default Question;

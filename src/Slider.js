@@ -69,15 +69,13 @@ const ContentsWrapper = styled.div`
     justify-content: center;
     mask: linear-gradient(to right, transparent, black 10%);
 
-
     &.slider-wrapper--next {
         mask: linear-gradient(to left, transparent, black 10%);
     }
 `;
 
 const SliderContainerWrapper = styled.div`
-    transform: ${(props) =>
-        props.distance ? `translate3d(${props.distance}px, 0, 0)` : `translate3d(0px, 0, 0)`};
+    transform: ${(props) => (props.distance ? `translateX(${props.distance}px)` : `translateX(0)`)};
     transition: transform 0.3s ease-in-out;
     will-change: transform;
     position: relative;
@@ -92,7 +90,6 @@ const SliderContainerWrapper = styled.div`
     scroll-snap-type: x mandatory;
     scroll-margin-inline-start: 2.5em;
     width: 100%;
-
 
     .show_list {
         padding: 1.5rem 1rem;
@@ -119,7 +116,6 @@ const SliderContainerWrapper = styled.div`
         left: -0.925rem;
         position: absolute;
         z-index: 2;
-
     }
 
     .showBox > .movieBox {
@@ -146,14 +142,12 @@ const SliderContainerWrapper = styled.div`
 `;
 
 const SliderWrapper = ({ children, type }) => (
-    <ContentsWrapper className={`slider-wrapper--${type}`}>
-        {children}
-    </ContentsWrapper>
+    <ContentsWrapper className={`slider-wrapper--${type}`}>{children}</ContentsWrapper>
 );
 const SlideButton = ({ onClick, type }) => (
     <SlideButtonWrapper className={`slide-button--${type}`} onClick={onClick}>
-        <span className='buttonWrapper'>
-            <span className='slideButton'>
+        <span className="buttonWrapper">
+            <span className="slideButton">
                 <IconArrowDown />
             </span>
         </span>
@@ -178,7 +172,7 @@ const Slider = ({ children, activeSlide }) => {
 
     return (
         <SliderContext.Provider value={contextValue}>
-            <SliderWrapper type={hasPrev && "prev" || hasNext && "next"}>
+            <SliderWrapper type={(hasPrev && 'prev') || (hasNext && 'next')}>
                 <SliderContainerWrapper ref={containerRef} distance={distance}>
                     {children}
                 </SliderContainerWrapper>
