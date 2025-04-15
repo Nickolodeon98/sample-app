@@ -118,7 +118,6 @@ const CustomIntro = styled.div`
 
     .startButton {
         padding: 12px 20px;
-        font-size: 16px;
         background-color: #e50914;
         color: white;
         font-weight: bold;
@@ -191,6 +190,7 @@ const CustomShowListWrapper = styled.div`
     box-sizing: border-box;
     unicode-bidi: isolate;
     -webkit-text-size-adjust: 100%;
+    cursor: pointer;
 `;
 
 const CustomPageButton = styled.div`
@@ -350,7 +350,6 @@ function Clone() {
             <CustomBody>
                 <Email />
                 <CustomBannerWrapper>
-                    {/*<PopcornIcon src={popcornIcon} alt="Popcorn Icon"/>*/}
                     <CustomBanner>
                         <div className="textContent">
                             <p className="mainText">5,500원이면 만나볼 수 있는 넷플릭스</p>
@@ -360,9 +359,6 @@ function Clone() {
                     </CustomBanner>
                 </CustomBannerWrapper>
                 <h1 className="hotContents">지금 뜨는 콘텐츠</h1>
-                {/*<CustomShowListWrapper>*/}
-                {/*    <ShowList />*/}
-                {/*</CustomShowListWrapper>*/}
                 <CustomShowListWrapper>
                     <SampleSlider />
                 </CustomShowListWrapper>

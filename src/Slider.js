@@ -30,6 +30,11 @@ const SlideButtonWrapper = styled.div`
         background-color: rgba(128, 128, 128, 0.4);
         -webkit-transition: opacity 400ms ease-in-out;
         transition: opacity 400ms ease-in-out;
+        cursor: pointer;
+    }
+
+    .buttonWrapper:hover {
+        background-color: rgba(82, 80, 80, 0.2);
     }
 
     .slideButton {
@@ -64,6 +69,7 @@ const ContentsWrapper = styled.div`
     justify-content: center;
     mask: linear-gradient(to right, transparent, black 10%);
 
+
     &.slider-wrapper--next {
         mask: linear-gradient(to left, transparent, black 10%);
     }
@@ -86,6 +92,7 @@ const SliderContainerWrapper = styled.div`
     scroll-snap-type: x mandatory;
     scroll-margin-inline-start: 2.5em;
     width: 100%;
+
 
     .show_list {
         padding: 1.5rem 1rem;
@@ -112,6 +119,7 @@ const SliderContainerWrapper = styled.div`
         left: -0.925rem;
         position: absolute;
         z-index: 2;
+
     }
 
     .showBox > .movieBox {
@@ -122,6 +130,7 @@ const SliderContainerWrapper = styled.div`
         border-radius: 1rem;
         background-position: center;
         background-repeat: no-repeat;
+        cursor: pointer;
     }
 
     .showBox > span > .movieOrder {
