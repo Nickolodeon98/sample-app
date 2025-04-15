@@ -4,7 +4,7 @@ import logo from './netflix_logo.png';
 import { useQueries, useQuery } from 'react-query';
 import Slider from './Slider';
 import Item from './Item';
-
+import Question from './Question';
 const CustomBodyWrapper = styled.div`
     background: rgba(0, 0, 0, 0.6);
     display: flex;
@@ -190,7 +190,6 @@ const CustomShowListWrapper = styled.div`
     box-sizing: border-box;
     unicode-bidi: isolate;
     -webkit-text-size-adjust: 100%;
-    cursor: pointer;
 `;
 
 const CustomPageButton = styled.div`
@@ -277,7 +276,6 @@ const ReasonBox = styled.div`
     }
 `;
 
-const CustomQuestion = styled.div``;
 
 const Reason = () => {
     return (
@@ -534,10 +532,6 @@ const NextButton = () => {
             </CustomPageButtonWrapper>
         </CustomPageButton>
     );
-};
-
-const Question = () => {
-    return <CustomQuestion>넷플릭스에서 어떤 콘텐츠를 시청할 수 있나요?</CustomQuestion>;
 };
 
 export default Clone;
