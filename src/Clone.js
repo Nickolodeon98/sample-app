@@ -56,7 +56,7 @@ const CustomBody = styled.div`
     -webkit-box-align: center;
     -webkit-box-pack: center;
     -webkit-justify-content: center;
-    width: 70%;
+    width: 75%;
     position: relative;
 
     .hotContents {
@@ -76,13 +76,13 @@ const CustomIntro = styled.div`
     justify-content: center;
 
     &::before {
-        content: '';
+        // content: '';
         position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        background: rgba(0, 0, 0, 0.6);
+        background: #0f0f0f;
         z-index: -1;
         justify-content: center;
         display: flex;
@@ -347,7 +347,6 @@ function Clone() {
             <LanguageContext.Provider value={{ language, setLanguage }}>
                 <Header />
             </LanguageContext.Provider>
-            );
             <CustomBody>
                 <Email />
                 <CustomBannerWrapper>
@@ -363,7 +362,6 @@ function Clone() {
                 <h1 className="hotContents">지금 뜨는 콘텐츠</h1>
                 {/*<CustomShowListWrapper>*/}
                 {/*    <ShowList />*/}
-                {/*    <NextButton />*/}
                 {/*</CustomShowListWrapper>*/}
                 <CustomShowListWrapper>
                     <SampleSlider />

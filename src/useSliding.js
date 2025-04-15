@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 
-const PADDINGS = 110;
+const PADDINGS = 160;
 const useSliding = (elementWidth, countElements) => {
     const containerRef = useRef(null);
     const [containerWidth, setContainerWidth] = useState(0);
-    const [distance, setDistance] = useState(0); // 거리
-    const [totalInViewPort, setTotalInViewPort] = useState(0); // 뷰포트 (화면에 보이는 영역)
+    const [distance, setDistance] = useState(0);
+    const [totalInViewPort, setTotalInViewPort] = useState(0);
     const [viewed, setViewed] = useState(0);
 
     // console.log('countElements: ' + countElements);
@@ -22,12 +22,12 @@ const useSliding = (elementWidth, countElements) => {
     const handlePrev = () => {
         // console.log('viewed: ' + viewed);
         setViewed(viewed - totalInViewPort);
-        setDistance(distance + containerWidth);
+        setDistance(distance + (containerWidth * 0.7));
     };
 
     const handleNext = () => {
         setViewed(viewed + totalInViewPort);
-        setDistance(distance - containerWidth);
+        setDistance(distance - (containerWidth * 0.7));
     };
 
     // const slideProps = 'style={{ transform: `translate3d(${distance}px, 0, 0}` }}';

@@ -88,7 +88,7 @@ const SliderContainerWrapper = styled.div`
     width: 100%;
 
     .show_list {
-        padding: 0.8rem 1rem;
+        padding: 1.5rem 1rem;
     }
 
     .showBox {
@@ -97,7 +97,13 @@ const SliderContainerWrapper = styled.div`
         background: rgb(35, 35, 35);
         border: none;
         border-radius: 1rem;
-        transition: transform 0.2s ease-in-out;
+        transition: transform 0.3s ease;
+        transform-origin: center;
+    }
+
+    .showBox:hover {
+        transform: scale(1.1);
+        z-index: 1;
     }
 
     .showBox > span {
@@ -111,13 +117,13 @@ const SliderContainerWrapper = styled.div`
     .showBox > .movieBox {
         width: 12.5rem;
         height: 25rem;
-        //background-image: url('https://file.koreafilm.or.kr/thm/02/00/01/46/tn_DPK004440.JPG');
         background-size: cover;
         border: none;
         border-radius: 1rem;
         background-position: center;
         background-repeat: no-repeat;
     }
+
     .showBox > span > .movieOrder {
         line-height: 1;
         display: inline-block;
