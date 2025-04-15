@@ -44,7 +44,7 @@ const SlideButtonWrapper = styled.div`
     }
 
     &.slide-button--prev {
-        left: -57px;
+        left: -35px;
 
         .slideButton {
             transform: rotateZ(180deg);
@@ -56,13 +56,17 @@ const ContentsWrapper = styled.div`
     overflow: hidden;
     border-radius: 0.5rem;
     width: 100%;
-    mask: linear-gradient(to left, transparent, black 10%);
     position: relative;
     display: flex;
     box-sizing: border-box;
     unicode-bidi: isolate;
     -webkit-text-size-adjust: 100%;
     justify-content: center;
+    mask: linear-gradient(to right, transparent, black 10%);
+
+    &.slider-wrapper--next {
+        mask: linear-gradient(to left, transparent, black 10%);
+    }
 `;
 
 const SliderContainerWrapper = styled.div`
@@ -108,11 +112,11 @@ const SliderContainerWrapper = styled.div`
         width: 12.5rem;
         height: 25rem;
         //background-image: url('https://file.koreafilm.or.kr/thm/02/00/01/46/tn_DPK004440.JPG');
-        background-size: cover; /* div에 꽉 차도록 조정 */
+        background-size: cover;
         border: none;
         border-radius: 1rem;
-        background-position: center; /* 이미지를 중앙 정렬 */
-        background-repeat: no-repeat; /* 반복 방지 */
+        background-position: center;
+        background-repeat: no-repeat;
     }
     .showBox > span > .movieOrder {
         line-height: 1;
@@ -126,15 +130,17 @@ const SliderContainerWrapper = styled.div`
     }
 `;
 
-const SliderWrapper = ({ children }) => (
-    <ContentsWrapper className="slider-wrapper">{children}</ContentsWrapper>
+const SliderWrapper = ({ children, type }) => (
+    <ContentsWrapper className={`slider-wrapper--${type}`}>
+        {children}
+    </ContentsWrapper>
 );
 const SlideButton = ({ onClick, type }) => (
     <SlideButtonWrapper className={`slide-button--${type}`} onClick={onClick}>
         <span className='buttonWrapper'>
-        <span className='slideButton'>
-            <IconArrowDown />
-        </span>
+            <span className='slideButton'>
+                <IconArrowDown />
+            </span>
         </span>
     </SlideButtonWrapper>
 );
@@ -157,7 +163,7 @@ const Slider = ({ children, activeSlide }) => {
 
     return (
         <SliderContext.Provider value={contextValue}>
-            <SliderWrapper>
+            <SliderWrapper type={hasPrev && "prev" || hasNext && "next"}>
                 <SliderContainerWrapper ref={containerRef} distance={distance}>
                     {children}
                 </SliderContainerWrapper>
