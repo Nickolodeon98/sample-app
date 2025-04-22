@@ -1,282 +1,11 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import logo from './netflix_logo.png';
+import logo from './images/netflix_logo.png';
+import background from './images/background.jpg';
 import { useQueries, useQuery } from 'react-query';
-import Slider from './Slider';
-import Item from './Item';
-import Question from './Question';
-
-const CustomBodyWrapper = styled.div`
-    background: rgba(0, 0, 0, 0.6);
-    display: flex;
-    justify-content: center;
-    box-sizing: border-box;
-`;
-
-const CustomHeader = styled.header`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-top: 30px;
-    padding-bottom: 30px;
-    background: rgba(0, 0, 0, 0.7);
-    position: absolute;
-    width: 100%;
-    top: 0;
-    left: 0;
-    z-index: 10;
-
-    .logoImage {
-        width: 150px;
-    }
-
-    .headerControls {
-        display: flex;
-        gap: 15px;
-        align-items: center;
-    }
-
-    .languageSelectBox,
-    .loginButton {
-        padding: 8px 12px;
-        border-radius: 4px;
-        border: none;
-        font-size: 14px;
-    }
-
-    .loginButton {
-        background-color: #e50914;
-        color: white;
-        font-weight: bold;
-        cursor: pointer;
-    }
-`;
-
-const CustomBody = styled.div`
-    -webkit-align-items: center;
-    -webkit-box-align: center;
-    -webkit-box-pack: center;
-    -webkit-justify-content: center;
-    width: 75%;
-    position: relative;
-
-    .hotContents {
-        color: white;
-    }
-`;
-
-const CustomIntro = styled.div`
-    height: 100vh;
-    background: url('./black.jpg') center/cover no-repeat;
-    color: white;
-    position: relative;
-    z-index: 1;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-
-    &::before {
-        // content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: #0f0f0f;
-        z-index: -1;
-        justify-content: center;
-        display: flex;
-    }
-
-    .mainTitle {
-        font-size: 3rem;
-        font-weight: bold;
-    }
-
-    .subText {
-        font-size: 1.5rem;
-        margin-top: 10px;
-    }
-
-    .subSubText {
-        font-size: 1.2rem;
-        margin-top: 10px;
-    }
-
-    .emailInputContainer {
-        margin-top: 20px;
-        gap: 10px;
-    }
-
-    .emailInput {
-        padding: 12px;
-        font-size: 16px;
-        width: 300px;
-        border-radius: 4px;
-        border: none;
-    }
-
-    .startButton {
-        padding: 12px 20px;
-        background-color: #e50914;
-        color: white;
-        font-weight: bold;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-    }
-`;
-
-const CustomBannerWrapper = styled.div`
-    position: relative;
-    display: block;
-    width: 100%;
-    box-sizing: border-box;
-    unicode-bidi: isolate;
-    -webkit-text-size-adjust: 100%;
-`;
-
-const PopcornIcon = styled.div`
-    position: relative;
-    width: 60px;
-    height: 60px;
-    margin-right: -10px;
-    z-index: 2;
-`;
-
-const CustomBanner = styled.div`
-    text-align: left;
-    transition: all 0.5s cubic-bezier(0.33, 0, 0, 1);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: linear-gradient(90deg, #22002a, #3b0b50);
-    padding: 12px 20px;
-    color: white;
-    border-radius: 20px;
-    margin-top: 10px;
-
-    .textContent {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .mainText {
-        font-size: 1.3rem;
-        font-weight: bold;
-    }
-
-    .subText {
-        font-size: 1rem;
-        opacity: 0.8;
-    }
-
-    .detailButton {
-        margin-left: auto;
-        padding: 8px 12px;
-        background: #666;
-        color: white;
-        font-size: 0.9rem;
-        border: none;
-        border-radius: 10px;
-        cursor: pointer;
-    }
-`;
-
-const CustomShowListWrapper = styled.div`
-    position: relative;
-    display: flex;
-    width: 100%;
-    box-sizing: border-box;
-    unicode-bidi: isolate;
-    -webkit-text-size-adjust: 100%;
-`;
-
-const CustomPageButton = styled.div`
-    position: absolute;
-    height: 100%;
-    border: none;
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    justify-content: center;
-    z-index: 3;
-    padding-left: 0.75rem;
-    transition: transform 400ms ease-in-out;
-    right: -2rem;
-    left: auto;
-    -webkit-transition: opacity 400ms ease-in-out;
-`;
-
-const CustomPageButtonWrapper = styled.div`
-    .pageButton {
-        height: 5rem;
-        width: 1.5rem;
-        border-radius: 16rem;
-        border: none;
-        display: flex;
-        -webkit-box-align: center;
-        align-items: center;
-        padding: 0;
-        margin: 0;
-        color: rgb(255, 255, 255);
-        background-color: rgba(128, 128, 128, 0.4);
-        -webkit-transition: opacity 400ms ease-in-out;
-        transition: opacity 400ms ease-in-out;
-    }
-`;
-
-const WholeReasonDivisionWrapper = styled.div`
-    display: flex;
-    flex-direction: row;
-`;
-
-const ReasonBoxesWrapper = styled.div`
-    margin-left: 0.75rem;
-    margin-top: initial;
-`;
-
-const ReasonBox = styled.div`
-    border-radius: 1rem;
-    position: relative;
-    display: -ms-flexbox;
-    display: flex;
-    overflow: hidden;
-    -ms-flex: 1;
-    flex: 1;
-    transition: all 0.5s cubic-bezier(0.33, 0, 0, 1);
-    background: rgba(255, 255, 255, 0.1);
-    border: 2px solid rgba(255, 255, 255, 0.04);
-    backdrop-filter: blur(12px);
-
-    .box {
-        grid-template-columns: 1fr;
-        display: flex;
-        -ms-flex-direction: column;
-        flex-direction: column;
-        max-width: 400px;
-        max-height: 250px;
-        min-height: 230px;
-    }
-
-    .boxTitle {
-        font-size: 1.125rem;
-        font-weight: 500;
-    }
-
-    .boxContent {
-        margin-top: 0.75rem;
-        margin-bottom: 0.75rem;
-    }
-
-    .boxText {
-        font-size: 1rem;
-        font-weight: 400;
-    }
-`;
-
+import Slider from './slider/Slider';
+import Item from './slider/Item';
+import Question from './questions/Question';
 
 const Reason = () => {
     return (
@@ -534,5 +263,296 @@ const NextButton = () => {
         </CustomPageButton>
     );
 };
+
+const BackgroundSection = styled.div`
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(${background});
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 50vh;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+`;
+
+const CustomBodyWrapper = styled.div`
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(${background});
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    box-sizing: border-box;
+    min-height: 100vh;
+    width: 100%;
+    position: relative;
+`;
+
+const CustomHeader = styled.header`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    background: rgba(0, 0, 0, 0.7);
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 10;
+
+    .logoImage {
+        width: 150px;
+    }
+
+    .headerControls {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+    }
+
+    .languageSelectBox,
+    .loginButton {
+        padding: 8px 12px;
+        border-radius: 4px;
+        border: none;
+        font-size: 14px;
+    }
+
+    .loginButton {
+        background-color: #e50914;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+    }
+`;
+
+const CustomBody = styled.div`
+    -webkit-align-items: center;
+    -webkit-box-align: center;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    width: 75%;
+    position: relative;
+    background: transparent;
+
+    .hotContents {
+        color: white;
+    }
+`;
+
+const CustomIntro = styled.div`
+    height: 100vh;
+    background: url('./black.jpg') center/cover no-repeat;
+    color: white;
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    &::before {
+        // content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #0f0f0f;
+        z-index: -1;
+        justify-content: center;
+        display: flex;
+    }
+
+    .mainTitle {
+        font-size: 3rem;
+        font-weight: bold;
+    }
+
+    .subText {
+        font-size: 1.5rem;
+        margin-top: 10px;
+    }
+
+    .subSubText {
+        font-size: 1.2rem;
+        margin-top: 10px;
+    }
+
+    .emailInputContainer {
+        margin-top: 20px;
+        gap: 10px;
+    }
+
+    .emailInput {
+        padding: 12px;
+        font-size: 16px;
+        width: 300px;
+        border-radius: 4px;
+        border: none;
+    }
+
+    .startButton {
+        padding: 12px 20px;
+        background-color: #e50914;
+        color: white;
+        font-weight: bold;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+`;
+
+const CustomBannerWrapper = styled.div`
+    position: relative;
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    unicode-bidi: isolate;
+    -webkit-text-size-adjust: 100%;
+`;
+
+const PopcornIcon = styled.div`
+    position: relative;
+    width: 60px;
+    height: 60px;
+    margin-right: -10px;
+    z-index: 2;
+`;
+
+const CustomBanner = styled.div`
+    text-align: left;
+    transition: all 0.5s cubic-bezier(0.33, 0, 0, 1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(90deg, #22002a, #3b0b50);
+    padding: 12px 20px;
+    color: white;
+    border-radius: 20px;
+    margin-top: 10px;
+
+    .textContent {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .mainText {
+        font-size: 1.3rem;
+        font-weight: bold;
+    }
+
+    .subText {
+        font-size: 1rem;
+        opacity: 0.8;
+    }
+
+    .detailButton {
+        margin-left: auto;
+        padding: 8px 12px;
+        background: #666;
+        color: white;
+        font-size: 0.9rem;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+    }
+`;
+
+const CustomShowListWrapper = styled.div`
+    position: relative;
+    display: flex;
+    width: 100%;
+    box-sizing: border-box;
+    unicode-bidi: isolate;
+    -webkit-text-size-adjust: 100%;
+`;
+
+const CustomPageButton = styled.div`
+    position: absolute;
+    height: 100%;
+    border: none;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    z-index: 3;
+    padding-left: 0.75rem;
+    transition: transform 400ms ease-in-out;
+    right: -2rem;
+    left: auto;
+    -webkit-transition: opacity 400ms ease-in-out;
+`;
+
+const CustomPageButtonWrapper = styled.div`
+    .pageButton {
+        height: 5rem;
+        width: 1.5rem;
+        border-radius: 16rem;
+        border: none;
+        display: flex;
+        -webkit-box-align: center;
+        align-items: center;
+        padding: 0;
+        margin: 0;
+        color: rgb(255, 255, 255);
+        background-color: rgba(128, 128, 128, 0.4);
+        -webkit-transition: opacity 400ms ease-in-out;
+        transition: opacity 400ms ease-in-out;
+    }
+`;
+
+const WholeReasonDivisionWrapper = styled.div`
+    display: flex;
+    flex-direction: row;
+`;
+
+const ReasonBoxesWrapper = styled.div`
+    margin-left: 0.75rem;
+    margin-top: initial;
+`;
+
+const ReasonBox = styled.div`
+    border-radius: 1rem;
+    position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    overflow: hidden;
+    -ms-flex: 1;
+    flex: 1;
+    transition: all 0.5s cubic-bezier(0.33, 0, 0, 1);
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(12px);
+
+    .box {
+        grid-template-columns: 1fr;
+        display: flex;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        max-width: 400px;
+        max-height: 250px;
+        min-height: 230px;
+    }
+
+    .boxTitle {
+        font-size: 1.125rem;
+        font-weight: 500;
+    }
+
+    .boxContent {
+        margin-top: 0.75rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .boxText {
+        font-size: 1rem;
+        font-weight: 400;
+    }
+`;
 
 export default Clone;

@@ -1,9 +1,50 @@
 import React, { useState } from 'react';
-import useSizeElement from './useSizeElement';
 import useSliding from './useSliding';
-import { SliderContext } from './context';
+import { SliderContext } from '../context';
 import styled from 'styled-components';
-import IconArrowDown from './IconArrowDown';
+import IconArrowDown from '../images/IconArrowDown';
+import { useRef } from 'react';
+
+const SliderWrapper = ({ children, type }) => (
+    <ContentsWrapper className={`slider-wrapper--${type}`}>{children}</ContentsWrapper>
+);
+const SlideButton = ({ onClick, type }) => (
+    <SlideButtonWrapper className={`slide-button--${type}`} onClick={onClick}>
+        <span className="buttonWrapper">
+            <span className="slideButton">
+                <IconArrowDown />
+            </span>
+        </span>
+    </SlideButtonWrapper>
+);
+const Slider = ({ children, activeSlide }) => {
+    // 현재 활성화된 슬라이드
+    const [currentSlide, setCurrentSlide] = useState(activeSlide);
+    // 슬라이드 내의 한 개 요소의 너비
+    const elementRef = useRef(null);
+    // 슬라이드 이동 함수
+    const { handlePrev, handleNext, distance, containerRef, hasNext, hasPrev } = useSliding(
+        elementRef?.current?.clientWidth,
+        React.Children.count(children),
+    );
+
+    const contextValue = {  
+        currentSlide,
+        elementRef,
+    };
+
+    return (
+        <SliderContext.Provider value={contextValue}>
+            <SliderWrapper type={(hasPrev && 'prev') || (hasNext && 'next')}>
+                <SliderContainerWrapper ref={containerRef} distance={distance}>
+                    {children}
+                </SliderContainerWrapper>
+            </SliderWrapper>
+            {hasPrev && <SlideButton onClick={handlePrev} type="prev" />}
+            {hasNext && <SlideButton onClick={handleNext} type="next" />}
+        </SliderContext.Provider>
+    );
+};
 
 const SlideButtonWrapper = styled.div`
     position: absolute;
@@ -141,46 +182,5 @@ const SliderContainerWrapper = styled.div`
     }
 `;
 
-const SliderWrapper = ({ children, type }) => (
-    <ContentsWrapper className={`slider-wrapper--${type}`}>{children}</ContentsWrapper>
-);
-const SlideButton = ({ onClick, type }) => (
-    <SlideButtonWrapper className={`slide-button--${type}`} onClick={onClick}>
-        <span className="buttonWrapper">
-            <span className="slideButton">
-                <IconArrowDown />
-            </span>
-        </span>
-    </SlideButtonWrapper>
-);
-const Slider = ({ children, activeSlide }) => {
-    const [currentSlide, setCurrentSlide] = useState(activeSlide);
-    const { width, elementRef } = useSizeElement();
-
-    // console.log('width: ' + width);
-    const { handlePrev, handleNext, distance, containerRef, hasNext, hasPrev } = useSliding(
-        width,
-        React.Children.count(children),
-    );
-
-    // console.log('slideProps: ' + distance);
-
-    const contextValue = {
-        currentSlide,
-        elementRef,
-    };
-
-    return (
-        <SliderContext.Provider value={contextValue}>
-            <SliderWrapper type={(hasPrev && 'prev') || (hasNext && 'next')}>
-                <SliderContainerWrapper ref={containerRef} distance={distance}>
-                    {children}
-                </SliderContainerWrapper>
-            </SliderWrapper>
-            {hasPrev && <SlideButton onClick={handlePrev} type="prev" />}
-            {hasNext && <SlideButton onClick={handleNext} type="next" />}
-        </SliderContext.Provider>
-    );
-};
 
 export default Slider;
