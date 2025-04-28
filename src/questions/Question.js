@@ -15,19 +15,19 @@ const QUESTIONS = [
         questionId: 'b',
         question: '넷플릭스란 무엇인가요?',
         answer: '넷플릭스는 각종 수상 경력에 빛나는 시리즈, 영화, 애니메이션, 다큐멘터리 등 다양한 콘텐츠를 인터넷 연결이 가능한 수천 종의 디바이스에서 시청할 수 있는 스트리밍 서비스입니다.\n\n저렴한 월 요금으로 원하는 시간에 원하는 만큼 즐길 수 있습니다. 무궁무진한 콘텐츠가 준비되어 있으며 매주 새로운 시리즈와 영화가 제공됩니다.',
-        collapsed: false
+        collapsed: false,
     },
     {
         questionId: 'c',
         question: '넷플릭스 요금은 얼마인가요?',
         answer: '스마트폰, 태블릿, 스마트 TV, 노트북, 스트리밍 디바이스 등 다양한 디바이스에서 월정액 요금 하나로 넷플릭스를 시청하세요. 멤버십 요금은 월 5,500원부터 17,000원까지 다양합니다. 추가 비용이나 약정이 없습니다.',
-        collapsed: false 
+        collapsed: false,
     },
     {
         questionId: 'd',
         question: '어디에서 시청할 수 있나요?',
         answer: '언제 어디서나 시청할 수 있습니다. 넷플릭스 계정으로 로그인하면 PC에서 netflix.com을 통해 바로 시청할 수 있으며, 인터넷이 연결되어 있고 넷플릭스 앱을 지원하는 디바이스(스마트 TV, 스마트폰, 태블릿, 스트리밍 미디어 플레이어, 게임 콘솔 등)에서도 언제든지 시청할 수 있습니다.\n\niOS 또는 Android용 앱에서는 좋아하는 시리즈를 저장할 수도 있습니다. 저장 기능을 이용해 이동 중이나 인터넷에 연결할 수 없는 곳에서도 시청하세요. 넷플릭스는 어디서든 함께니까요.',
-        collapsed: false 
+        collapsed: false,
     },
     {
         questionId: 'e',
@@ -71,11 +71,13 @@ const Question = () => {
 };
 
 const Answer = ({ answer, type }) => {
-    return (<CustomAnswerSection className={`answer-section--${type}`}>
-        <CustomAnswerWrapper>
-            <CustomAnswer>{answer}</CustomAnswer>
-        </CustomAnswerWrapper>
-    </CustomAnswerSection>);
+    return (
+        <CustomAnswerSection className={`answer-section--${type}`}>
+            <CustomAnswerWrapper>
+                <CustomAnswer>{answer}</CustomAnswer>
+            </CustomAnswerWrapper>
+        </CustomAnswerSection>
+    );
 };
 
 const QuestionSection = () => {
@@ -84,7 +86,7 @@ const QuestionSection = () => {
 
     return questions.map((question) => (
         <React.Fragment key={question.questionId}>
-            <CustomQuestionSection >
+            <CustomQuestionSection>
                 <CustomQuestionWrapper>
                     <CustomQuestion key={question.questionId}>{question.question}</CustomQuestion>
                     <AnswerButton
@@ -94,7 +96,6 @@ const QuestionSection = () => {
                                 payload: { questionId: question.questionId },
                             });
                         }}
-
                         type={question.collapsed ? 'visible' : 'hidden'}
                     />
                 </CustomQuestionWrapper>
@@ -108,10 +109,17 @@ const CustomQuestionSection = styled.div`
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: #272727;
     padding: 10px;
     border-radius: 20px;
     margin-bottom: 5px;
+    width: 75%;
+    justify-self: center;
+
+    &:hover {
+        background-color: #3a3a3a;
+        cursor: pointer;
+    }
 `;
 
 const CustomQuestionWrapper = styled.ul`
@@ -133,18 +141,19 @@ const CustomAnswerSection = styled.div`
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: #272727;
     border-radius: 20px;
     overflow: hidden;
     max-height: 0;
     transform-origin: top;
-    transition: all 0.3s ease;
+    transition: all 0.15s ease;
+    width: 75%;
+    margin: 0 10px 0 10px;
 
     &.answer-section--hidden {
     }
 
     &.answer-section--visible {
-        padding: 10px;
         margin-bottom: 5px;
         max-height: 1000px;
         transition: 250ms cubic-bezier(0.32, 0.94, 0.6, 1);

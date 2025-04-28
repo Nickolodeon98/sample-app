@@ -17,7 +17,10 @@ const Reason = () => {
                         <div className="boxContent">
                             <p className="boxText">
                                 스마트 TV, PlayStation, Xbox, Chromecast, Apple TV, 블루레이
-                                플레이어 등 다양한 디바이스에서 시청하세요.
+                                <br />
+                                플레이어 등 다양한 디바이스에서
+                                <br />
+                                시청하세요.
                             </p>
                         </div>
                     </div>
@@ -27,10 +30,16 @@ const Reason = () => {
                 <ReasonBox>
                     <div className="box">
                         <h3 className="boxTitle">
-                            즐겨 보는 콘텐츠를 저장해 오프라인으로 시청하세요
+                            즐겨 보는 콘텐츠를 저장해
+                            <br />
+                            오프라인으로 시청하세요
                         </h3>
                         <div className="boxContent">
-                            <p className="boxText">간편하게 저장하고 빈틈없이 즐겨보세요.</p>
+                            <p className="boxText">
+                                간편하게 저장하고 빈틈없이
+                                <br />
+                                즐겨보세요.
+                            </p>
                         </div>
                     </div>
                 </ReasonBox>
@@ -42,6 +51,7 @@ const Reason = () => {
                         <div className="boxContent">
                             <p className="boxText">
                                 각종 영화와 시리즈를 스마트폰, 태블릿, 노트북, TV에서 무제한으로
+                                <br />
                                 스트리밍하세요.
                             </p>
                         </div>
@@ -51,11 +61,16 @@ const Reason = () => {
             <ReasonBoxesWrapper>
                 <ReasonBox>
                     <div className="box">
-                        <h3 className="boxTitle">어린이 전용 프로필을 만들어 보세요</h3>
+                        <h3 className="boxTitle">
+                            어린이 전용 프로필을 만들어
+                            <br />
+                            보세요
+                        </h3>
                         <div className="boxContent">
                             <p className="boxText">
                                 자기만의 공간에서 좋아하는 캐릭터와 즐기는 신나는 모험. 자녀에게 이
-                                특별한 경험을 선물하세요. 넷플릭스 회원이라면 무료입니다.
+                                특별한 경험을 선물하세요. 넷플릭스
+                                <br /> 회원이라면 무료입니다.
                             </p>
                         </div>
                     </div>
@@ -76,24 +91,30 @@ function Clone() {
                 <Header />
             </LanguageContext.Provider>
             <CustomBody>
-                <Email />
-                <CustomBannerWrapper>
-                    <CustomBanner>
-                        <div className="textContent">
-                            <p className="mainText">5,500원이면 만나볼 수 있는 넷플릭스</p>
-                            <p className="subText">가장 경제적인 광고형 멤버십을 이용해 보세요.</p>
-                        </div>
-                        <button className="detailButton">자세히 알아보기</button>
-                    </CustomBanner>
-                </CustomBannerWrapper>
-                <h1 className="hotContents">지금 뜨는 콘텐츠</h1>
-                <CustomShowListWrapper>
-                    <SampleSlider />
-                </CustomShowListWrapper>
-                <h1 className="hotContents">가입해야 하는 또 다른 이유</h1>
-                <Reason />
-                <h1 className="hotContents">자주 묻는 질문</h1>
-                <Question />
+                <BodyTop>
+                    <Email />
+                </BodyTop>
+                <BodyBottom>
+                    <CustomBannerWrapper>
+                        <CustomBanner>
+                            <div className="textContent">
+                                <p className="mainText">5,500원이면 만나볼 수 있는 넷플릭스</p>
+                                <p className="subText">
+                                    가장 경제적인 광고형 멤버십을 이용해 보세요.
+                                </p>
+                            </div>
+                            <button className="detailButton">자세히 알아보기</button>
+                        </CustomBanner>
+                    </CustomBannerWrapper>
+                    <h1 className="hotContents">지금 뜨는 콘텐츠</h1>
+                    <CustomShowListWrapper>
+                        <SampleSlider />
+                    </CustomShowListWrapper>
+                    <h1 className="hotContents">가입해야 하는 또 다른 이유</h1>
+                    <Reason />
+                    <h1 className="hotContents">자주 묻는 질문</h1>
+                    <Question />
+                </BodyBottom>
             </CustomBody>
         </CustomBodyWrapper>
     );
@@ -334,12 +355,15 @@ const CustomBody = styled.div`
     -webkit-box-align: center;
     -webkit-box-pack: center;
     -webkit-justify-content: center;
-    width: 75%;
-    position: relative;
+    width: 100%;
+    position: absolute;
     background: transparent;
 
     .hotContents {
         color: white;
+        text-align: left;
+        margin-left: 0;
+        width: 75%;
     }
 `;
 
@@ -409,10 +433,10 @@ const CustomIntro = styled.div`
 const CustomBannerWrapper = styled.div`
     position: relative;
     display: block;
-    width: 100%;
     box-sizing: border-box;
     unicode-bidi: isolate;
     -webkit-text-size-adjust: 100%;
+    width: 75%;
 `;
 
 const PopcornIcon = styled.div`
@@ -465,7 +489,7 @@ const CustomBanner = styled.div`
 const CustomShowListWrapper = styled.div`
     position: relative;
     display: flex;
-    width: 100%;
+    width: 75%;
     box-sizing: border-box;
     unicode-bidi: isolate;
     -webkit-text-size-adjust: 100%;
@@ -509,11 +533,13 @@ const CustomPageButtonWrapper = styled.div`
 const WholeReasonDivisionWrapper = styled.div`
     display: flex;
     flex-direction: row;
+    width: 75%;
 `;
 
 const ReasonBoxesWrapper = styled.div`
     margin-left: 0.75rem;
     margin-top: initial;
+    text-decoration-color: white;
 `;
 
 const ReasonBox = styled.div`
@@ -531,28 +557,45 @@ const ReasonBox = styled.div`
 
     .box {
         grid-template-columns: 1fr;
-        display: flex;
         -ms-flex-direction: column;
         flex-direction: column;
-        max-width: 400px;
-        max-height: 250px;
+        min-width: 250px;
+        max-width: 300px;
         min-height: 230px;
+        max-height: 250px;
+        margin: 10px 10px 10px 10px;
     }
 
     .boxTitle {
         font-size: 1.125rem;
         font-weight: 500;
+        color: white;
     }
 
     .boxContent {
-        margin-top: 0.75rem;
         margin-bottom: 0.75rem;
     }
 
     .boxText {
         font-size: 1rem;
         font-weight: 400;
+        color: lightgray;
     }
+`;
+
+const BodyTop = styled.div`
+    width: 100%;
+`;
+
+const BodyBottom = styled.div`
+    width: 100%;
+    background-color: #0f0f0f;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 1;
+    justify-content: center;
+    align-items: center;
 `;
 
 export default Clone;
