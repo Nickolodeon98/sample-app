@@ -17,10 +17,7 @@ const Reason = () => {
                         <div className="boxContent">
                             <p className="boxText">
                                 스마트 TV, PlayStation, Xbox, Chromecast, Apple TV, 블루레이
-                                <br />
-                                플레이어 등 다양한 디바이스에서
-                                <br />
-                                시청하세요.
+                                플레이어 등 다양한 디바이스에서 시청하세요.
                             </p>
                         </div>
                     </div>
@@ -30,16 +27,10 @@ const Reason = () => {
                 <ReasonBox>
                     <div className="box">
                         <h3 className="boxTitle">
-                            즐겨 보는 콘텐츠를 저장해
-                            <br />
-                            오프라인으로 시청하세요
+                            즐겨 보는 콘텐츠를 저장해 오프라인으로 시청하세요
                         </h3>
                         <div className="boxContent">
-                            <p className="boxText">
-                                간편하게 저장하고 빈틈없이
-                                <br />
-                                즐겨보세요.
-                            </p>
+                            <p className="boxText">간편하게 저장하고 빈틈없이 즐겨보세요.</p>
                         </div>
                     </div>
                 </ReasonBox>
@@ -51,7 +42,6 @@ const Reason = () => {
                         <div className="boxContent">
                             <p className="boxText">
                                 각종 영화와 시리즈를 스마트폰, 태블릿, 노트북, TV에서 무제한으로
-                                <br />
                                 스트리밍하세요.
                             </p>
                         </div>
@@ -61,16 +51,11 @@ const Reason = () => {
             <ReasonBoxesWrapper>
                 <ReasonBox>
                     <div className="box">
-                        <h3 className="boxTitle">
-                            어린이 전용 프로필을 만들어
-                            <br />
-                            보세요
-                        </h3>
+                        <h3 className="boxTitle">어린이 전용 프로필을 만들어 보세요</h3>
                         <div className="boxContent">
                             <p className="boxText">
                                 자기만의 공간에서 좋아하는 캐릭터와 즐기는 신나는 모험. 자녀에게 이
-                                특별한 경험을 선물하세요. 넷플릭스
-                                <br /> 회원이라면 무료입니다.
+                                특별한 경험을 선물하세요. 넷플릭스 회원이라면 무료입니다.
                             </p>
                         </div>
                     </div>
@@ -89,6 +74,7 @@ function Clone() {
         <CustomBodyWrapper>
             <LanguageContext.Provider value={{ language, setLanguage }}>
                 <Header />
+                <BackgroundSection />
             </LanguageContext.Provider>
             <CustomBody>
                 <BodyTop>
@@ -171,7 +157,7 @@ const Header = () => {
                         <Option label={selection} selected={language?.selection === selection} />
                     ))}
                 </select>
-                <Button label={'로그인'}>d</Button>
+                <Button label={'로그인'}></Button>
             </div>
         </CustomHeader>
     );
@@ -285,21 +271,7 @@ const NextButton = () => {
     );
 };
 
-const BackgroundSection = styled.div`
-    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(${background});
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    height: 50vh;
-    width: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: -1;
-`;
-
 const CustomBodyWrapper = styled.div`
-    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(${background});
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -317,7 +289,7 @@ const CustomHeader = styled.header`
     align-items: center;
     padding-top: 30px;
     padding-bottom: 30px;
-    background: rgba(0, 0, 0, 0.7);
+    //background: rgba(0, 0, 0, 0.7);
     position: absolute;
     width: 100%;
     top: 0;
@@ -326,27 +298,35 @@ const CustomHeader = styled.header`
 
     .logoImage {
         width: 150px;
+        padding-left: 55px;
     }
 
     .headerControls {
         display: flex;
         gap: 15px;
         align-items: center;
+        padding-right: 55px;
     }
 
     .languageSelectBox,
     .loginButton {
-        padding: 8px 12px;
-        border-radius: 4px;
-        border: none;
+        padding: 8px 20px;
+        border-radius: 24px;
         font-size: 14px;
     }
 
-    .loginButton {
-        background-color: #e50914;
+    .languageSelectBox {
+        background-color: black;
         color: white;
+        border: 1px solid grey;
+    }
+
+    .loginButton {
+        background-color: white;
+        color: black;
         font-weight: bold;
         cursor: pointer;
+        border: none;
     }
 `;
 
@@ -358,6 +338,7 @@ const CustomBody = styled.div`
     width: 100%;
     position: absolute;
     background: transparent;
+    max-height: 80vh;
 
     .hotContents {
         color: white;
@@ -368,11 +349,11 @@ const CustomBody = styled.div`
 `;
 
 const CustomIntro = styled.div`
-    height: 100vh;
+    height: 85vh;
     background: url('./black.jpg') center/cover no-repeat;
     color: white;
     position: relative;
-    z-index: 1;
+    z-index: 3;
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -415,7 +396,7 @@ const CustomIntro = styled.div`
         padding: 12px;
         font-size: 16px;
         width: 300px;
-        border-radius: 4px;
+        border-radius: 20px;
         border: none;
     }
 
@@ -454,10 +435,17 @@ const CustomBanner = styled.div`
     align-items: center;
     justify-content: space-between;
     background: linear-gradient(90deg, #22002a, #3b0b50);
-    padding: 12px 20px;
+    padding: 12px 40px 15px;
     color: white;
     border-radius: 20px;
     margin-top: 10px;
+    height: 75px;
+    border: 1px solid #22002a;
+
+    &:hover {
+        filter: brightness(1.5);
+        transform: scale(1.03);
+    }
 
     .textContent {
         flex-direction: column;
@@ -465,13 +453,15 @@ const CustomBanner = styled.div`
     }
 
     .mainText {
-        font-size: 1.3rem;
+        font-size: 1.2rem;
         font-weight: bold;
+        margin: 10px;
     }
 
     .subText {
         font-size: 1rem;
         opacity: 0.8;
+        margin: 10px;
     }
 
     .detailButton {
@@ -540,6 +530,7 @@ const ReasonBoxesWrapper = styled.div`
     margin-left: 0.75rem;
     margin-top: initial;
     text-decoration-color: white;
+    width: 75%;
 `;
 
 const ReasonBox = styled.div`
@@ -551,7 +542,7 @@ const ReasonBox = styled.div`
     -ms-flex: 1;
     flex: 1;
     transition: all 0.5s cubic-bezier(0.33, 0, 0, 1);
-    background: rgba(255, 255, 255, 0.1);
+    background-color: #272727;
     border: 2px solid rgba(255, 255, 255, 0.04);
     backdrop-filter: blur(12px);
 
@@ -559,10 +550,8 @@ const ReasonBox = styled.div`
         grid-template-columns: 1fr;
         -ms-flex-direction: column;
         flex-direction: column;
-        min-width: 250px;
-        max-width: 300px;
-        min-height: 230px;
-        max-height: 250px;
+        min-height: 190px;
+        //max-height: 250px;
         margin: 10px 10px 10px 10px;
     }
 
@@ -585,17 +574,32 @@ const ReasonBox = styled.div`
 
 const BodyTop = styled.div`
     width: 100%;
+    top: 100px;
+    background: linear-gradient(to bottom, #28191b, black);
+    z-index: 1;
 `;
 
 const BodyBottom = styled.div`
     width: 100%;
-    background-color: #0f0f0f;
+    background: linear-gradient(to top, #28191b, black);
     display: flex;
     flex-direction: column;
     position: relative;
     z-index: 1;
     justify-content: center;
     align-items: center;
+`;
+
+const BackgroundSection = styled.div`
+    background: radial-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(${background});
+    height: 670px;
+    width: 1800px;
+    margin-top: 90px;
+    z-index: 2;
+    border-radius: 20px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: inset 0px -10px 15px rgba(0, 0, 0, 0.3);
 `;
 
 export default Clone;
